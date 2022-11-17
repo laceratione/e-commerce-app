@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">EffectiveMobileTest</string>
+    <string name="select_category">Select Category</string>
+    <string name="view_all">view all</string>
+    <string name="search_view_hint">Search</string>
+    <string name="hot_sales">Hot sales</string>
+    <string name="see_more">see more</string>
+    <string name="btn_buy_now">Buy now!</string>
+    <string name="best_seller">Best Seller</string>
+    <string name="bot_nav_action_1">Explorer</string>
+    <string name="bot_nav_action_2">Cart</string>
+    <string name="bot_nav_action_3">Favorites</string>
+    <string name="bot_nav_action_4">Profile</string>
+    <string name="location">Пермь, ул. 9 Мая</string>
+    <string name="filter_title">Filter options</string>
+    <string name="brand_title">Brand</string>
+    <string name="price_title">Price</string>
+    <string name="size_title">Size</string>
+    <string name="product_details">Product Details</string>
+    <string name="select_color_details">Select color and capacity</string>
+    <string name="add_cart">Add to Cart</string>
+    <string name="add_address">Add address</string>
+    <string name="my_cart_title">My Cart</string>
+
+    <string-array name="models">
+        <item>Samsung</item>
+        <item>Apple</item>
+    </string-array>
+    <string-array name="prices">
+        <item>$300-$500</item>
+        <item>$500-$1000</item>
+        <item>$1000-$10000</item>
+    </string-array>
+    <string-array name="sizes">
+        <item>4.5 to 5.5 inches</item>
+        <item>5.5 to 6.5 inches</item>
+    </string-array>
+
+    <string-array name="select_categories">
+        <item>Books</item>
+        <item>Computers</item>
+        <item>Health</item>
+        <item>Phones</item>
+        <item>Tools</item>
+    </string-array>
+
+    <string-array name="tab_titles">
+        <item>Shop</item>
+        <item>Details</item>
+        <item>Features</item>
+    </string-array>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="style_spinner">
+        <item name="android:background">@drawable/back_spinner</item>
+        <item name="android:padding">10dp</item>
+    </style>
+</resources>
