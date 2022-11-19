@@ -18,11 +18,9 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        INSTANCE = this
-
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val homeViewModel: HomeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        val homeViewModel: HomeViewModel = ViewModelProvider(this, HomeViewModelFactory(application)).get(HomeViewModel::class.java)
         binding.homeViewModel = homeViewModel
         binding.lifecycleOwner = this
 
@@ -48,8 +46,4 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
-    companion object{
-        private var INSTANCE: MainActivity? = null
-        fun get(): MainActivity = INSTANCE!!
-    }
 }

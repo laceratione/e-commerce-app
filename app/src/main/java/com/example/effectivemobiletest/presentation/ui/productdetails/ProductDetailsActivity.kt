@@ -20,7 +20,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         val binding: ActivityProductDetailsBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_product_details)
         val prodDetViewModel: ProductDetailsViewModel =
-            ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
+            ViewModelProvider(this, ProdDetViewModelFactory(application)).get(ProductDetailsViewModel::class.java)
         binding.prodDetViewModel = prodDetViewModel
         binding.setLifecycleOwner(this)
 
@@ -32,6 +32,8 @@ class ProductDetailsActivity : AppCompatActivity() {
         TabLayoutMediator(tab, pager) { tab, position ->
             tab.text = this.resources.getStringArray(R.array.tab_titles)[position]
         }.attach()
+
+
     }
 
 

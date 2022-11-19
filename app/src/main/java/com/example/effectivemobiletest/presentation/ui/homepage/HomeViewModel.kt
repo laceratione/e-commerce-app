@@ -1,5 +1,6 @@
 package com.example.effectivemobiletest.presentation.ui.homepage
 
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -8,9 +9,10 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletest.*
-import com.example.effectivemobiletest.data.RetrofitAPI
-import com.example.effectivemobiletest.data.ServerAPI
+import com.example.effectivemobiletest.domain.interactor.GetDataCart
+import com.example.effectivemobiletest.domain.interactor.GetDataHomeAct
 import com.example.effectivemobiletest.domain.models.*
+import com.example.effectivemobiletest.domain.repository.CloudProductRepository
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +21,7 @@ import java.lang.Exception
 import java.net.URL
 import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : ViewModel() {
     //товары категории Hot Sale
     val dataHotProducts: MutableLiveData<List<HotProduct>> = MutableLiveData()
 
@@ -39,9 +41,12 @@ class HomeViewModel : ViewModel() {
     @Inject
     lateinit var popUpWindow: FilterSettings
 
+    @Inject
+    lateinit var productRepository: CloudProductRepository
+
     //загрузка данных с сервера
     init {
-        (MainActivity.get().application as App).appComponent.injectHomeViewModel(this)
+        (application as App).appComponent.injectHomeViewModel(this)
 
         val jobHotSales: Job = GlobalScope.launch(Dispatchers.IO) {
             getDataHotSales()
@@ -60,56 +65,51 @@ class HomeViewModel : ViewModel() {
             isHotSalesLoading.postValue(true)
             isBestSellerLoading.postValue(true)
 
-            ServerAPI.getInstance()
-                .create(RetrofitAPI::class.java)
-                .getObjectsHotSales()
-                .enqueue(object : Callback<Product> {
-                    override fun onResponse(call: Call<Product>, response: Response<Product>) {
-                        val hotProducts = response.body()?.hotProducts
-                        val bestProducts = response.body()?.bestProducts
-                        GlobalScope.launch(Dispatchers.IO) {
-                            getBitmaps(hotProducts!!)
-                            dataHotProducts.postValue(hotProducts)
-                            isHotSalesLoading.postValue(false)
+            val getDataHomeAct = GetDataHomeAct(productRepository)
+            getDataHomeAct().enqueue(object : Callback<Product> {
+                override fun onResponse(call: Call<Product>, response: Response<Product>) {
+                    val hotProducts = response.body()?.hotProducts
+                    val bestProducts = response.body()?.bestProducts
+                    GlobalScope.launch(Dispatchers.IO) {
+                        getBitmaps(hotProducts!!)
+                        dataHotProducts.postValue(hotProducts)
+                        isHotSalesLoading.postValue(false)
 
-                            getBitmaps(bestProducts!!)
-                            dataBestProducts.postValue(bestProducts)
-                            isBestSellerLoading.postValue(false)
-                        }
+                        getBitmaps(bestProducts!!)
+                        dataBestProducts.postValue(bestProducts)
+                        isBestSellerLoading.postValue(false)
                     }
+                }
 
-                    override fun onFailure(call: Call<Product>, t: Throwable) {
-                        Log.d("myLogs", t.message.toString())
-                    }
-                })
+                override fun onFailure(call: Call<Product>, t: Throwable) {
+                    Log.d("myLogs", t.message.toString())
+                }
+            })
+
         }
     }
 
     //загрузка товаров из корзины пользователя
     suspend fun getDataMyCart() = coroutineScope {
         launch {
-            ServerAPI.getInstance()
-                .create(RetrofitAPI::class.java)
-                .getMyCart()
-                .enqueue(object : Callback<MyCart> {
-                    override fun onResponse(
-                        call: Call<MyCart>,
-                        response: Response<MyCart>
-                    ) {
-                        val myCart = response.body()
-                        GlobalScope.launch(Dispatchers.IO) {
-                            if (myCart != null) {
-                                getBitmaps(myCart.basket)
-                                dataMyCart.postValue(myCart)
-                                Cart.data.postValue(myCart)
-                            }
+            val getDataCart = GetDataCart(productRepository)
+            getDataCart().enqueue(object : Callback<MyCart> {
+                override fun onResponse(call: Call<MyCart>, response: Response<MyCart>) {
+                    val myCart = response.body()
+                    GlobalScope.launch(Dispatchers.IO) {
+                        if (myCart != null) {
+                            getBitmaps(myCart.basket)
+                            dataMyCart.postValue(myCart)
+                            Cart.data.postValue(myCart)
                         }
                     }
+                }
 
-                    override fun onFailure(call: Call<MyCart>, t: Throwable) {
-                        Log.d("myLogs", t.message.toString())
-                    }
-                })
+                override fun onFailure(call: Call<MyCart>, t: Throwable) {
+                    Log.d("myLogs", t.message.toString())
+                }
+            })
+
         }
     }
 
@@ -141,6 +141,5 @@ class HomeViewModel : ViewModel() {
 
         return true
     }
-
-
+    
 }
