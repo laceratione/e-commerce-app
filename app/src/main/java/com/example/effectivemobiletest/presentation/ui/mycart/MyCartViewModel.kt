@@ -7,11 +7,11 @@ import com.example.domain.model.MyCart
 
 class MyCartViewModel : ViewModel() {
     //данные корзины
-    val dataMyCart: MutableLiveData<com.example.domain.model.MyCart> = MutableLiveData()
+    val dataMyCart: MutableLiveData<MyCart> = MutableLiveData()
 
     //обновление данных корзины
     init {
-        dataMyCart.value = com.example.domain.model.Cart.data.value
+        dataMyCart.value = Cart.data.value
     }
 
 }

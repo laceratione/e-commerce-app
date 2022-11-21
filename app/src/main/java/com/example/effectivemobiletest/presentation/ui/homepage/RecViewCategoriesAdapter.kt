@@ -33,7 +33,7 @@ class RecViewCategoriesAdapter(
     }
 
     public interface OnItemClickListener {
-        fun onItemClick(itemCateg: com.example.domain.model.ItemCateg, view: View)
+        fun onItemClick(itemCateg: ItemCateg, view: View)
     }
 
     override fun onCreateViewHolder(

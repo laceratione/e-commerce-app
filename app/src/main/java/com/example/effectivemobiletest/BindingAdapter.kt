@@ -5,6 +5,10 @@ import android.widget.GridView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.model.BestProduct
+import com.example.domain.model.HotProduct
+import com.example.domain.model.MyCart
+import com.example.domain.model.ProductDetails
 import com.example.effectivemobiletest.presentation.ui.homepage.GridViewBestAdapter
 import com.example.effectivemobiletest.presentation.ui.homepage.RecViewHotAdapter
 import com.example.effectivemobiletest.presentation.ui.mycart.RecViewCartAdapter
@@ -16,7 +20,7 @@ import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
 
 //обновление товаров категории Hot Sales
 @BindingAdapter("dataHotProducts")
-fun bindItemViewModels(recView: RecyclerView, itemViewModels: List<com.example.domain.model.HotProduct>?) {
+fun bindItemViewModels(recView: RecyclerView, itemViewModels: List<HotProduct>?) {
     recView.layoutManager =
         LinearLayoutManager(recView.context, LinearLayoutManager.HORIZONTAL, false)
     val adapter = createAdapter(recView)
@@ -36,7 +40,7 @@ private fun createAdapter(recyclerView: RecyclerView): RecViewHotAdapter {
 
 //обновление товаров категории Best Sellet
 @BindingAdapter("dataBestProducts", "myContext")
-fun bindGridView(gridView: GridView, itemViewModels: List<com.example.domain.model.BestProduct>?, context: Context) {
+fun bindGridView(gridView: GridView, itemViewModels: List<BestProduct>?, context: Context) {
     val adapter = createGridViewAdapter(gridView, context)
     adapter.updateItems(itemViewModels)
 }
@@ -65,7 +69,7 @@ private fun createProdDetAdapter(recyclerView: RecyclerView): ProductDetailsAdap
 
 //обновление товаров корзины
 @BindingAdapter("dataCart")
-fun bindMyCart(recView: RecyclerView, itemViewModels: com.example.domain.model.MyCart?) {
+fun bindMyCart(recView: RecyclerView, itemViewModels: MyCart?) {
     recView.layoutManager =
         LinearLayoutManager(recView.context, LinearLayoutManager.VERTICAL, false)
     val adapter = createMyCartAdapter(recView)
@@ -94,7 +98,7 @@ fun setOnNavigationItemSelectedListener(
 
 //получение изображений товара ProductDetails
 @BindingAdapter("dataCarousel")
-fun bindItemViewModels(recView: CarouselRecyclerview, itemViewModels: com.example.domain.model.ProductDetails?) {
+fun bindItemViewModels(recView: CarouselRecyclerview, itemViewModels: ProductDetails?) {
     val adapter = createProdDetAdapter(recView)
     adapter.updateItems(itemViewModels)
 }

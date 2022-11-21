@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(){
         })
 
         //отображение количества товаров в корзине на панели навигации
-        com.example.domain.model.Cart.data.observe(this, {
+        Cart.data.observe(this, {
             val botNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
             val badge = botNav.getOrCreateBadge(R.id.page_2)
             badge.isVisible = true

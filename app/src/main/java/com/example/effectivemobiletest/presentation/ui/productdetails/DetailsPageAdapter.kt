@@ -17,20 +17,3 @@ class DetailsPageAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapt
 
 
 }
-
-//class DetailsPageAdapter(fragmentManager: FragmentManager, val context: Context): FragmentStateAdapter(fragmentManager) {
-//    private val COUNT_PAGE = 3
-//    private val titles: List<String> = listOf("Shop", "Details", "Features")
-//
-//    override fun getCount(): Int {
-//        return COUNT_PAGE
-//    }
-//
-//    override fun getItem(position: Int): Fragment {
-//        return ShopFragment.newInstance(position + 1)
-//    }
-//
-//    override fun getPageTitle(position: Int): CharSequence {
-//        return titles[position]
-//    }
-//}

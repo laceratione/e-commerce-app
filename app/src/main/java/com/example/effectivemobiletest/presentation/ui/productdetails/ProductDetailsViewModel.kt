@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.data.repository.CloudRepositoryImpl
+import com.example.domain.model.ProductDetails
 import com.example.domain.usecase.GetDataDetails
 import com.example.effectivemobiletest.App
 import kotlinx.coroutines.*
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 class ProductDetailsViewModel(application: Application) : ViewModel() {
     //подробная информация товара
-    val dataProductDetails: MutableLiveData<com.example.domain.model.ProductDetails> = MutableLiveData()
+    val dataProductDetails: MutableLiveData<ProductDetails> = MutableLiveData()
 
     //проверка загрузки данных
     val isProdDetLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -42,8 +43,8 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
             isProdDetLoading.postValue(true)
 
             val getDataDetails = GetDataDetails(cloudRepositoryImpl)
-            getDataDetails().enqueue(object : Callback<com.example.domain.model.ProductDetails> {
-                override fun onResponse(call: Call<com.example.domain.model.ProductDetails>, response: Response<com.example.domain.model.ProductDetails>) {
+            getDataDetails().enqueue(object : Callback<ProductDetails> {
+                override fun onResponse(call: Call<ProductDetails>, response: Response<ProductDetails>) {
                     val productDetails = response.body()
                     val bitmaps: MutableList<Bitmap> = mutableListOf()
                     GlobalScope.launch(Dispatchers.IO) {
@@ -64,7 +65,7 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<com.example.domain.model.ProductDetails>, t: Throwable) {
+                override fun onFailure(call: Call<ProductDetails>, t: Throwable) {
                     Log.d("myLogs", t.message.toString())
                 }
             })

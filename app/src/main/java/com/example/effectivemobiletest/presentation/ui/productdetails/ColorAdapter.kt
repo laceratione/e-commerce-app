@@ -1,8 +1,6 @@
 package com.example.effectivemobiletest.presentation.ui.productdetails
 
 import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.RoundRectShape
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

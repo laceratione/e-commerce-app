@@ -14,7 +14,7 @@ import java.lang.Exception
 //адаптер списка элементов корзины
 class RecViewCartAdapter(
 ) : RecyclerView.Adapter<RecViewCartAdapter.ViewHolder>() {
-    private var myCart: com.example.domain.model.MyCart? = null
+    private var myCart: MyCart? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +41,7 @@ class RecViewCartAdapter(
         return count
     }
 
-    fun updateItems(item: com.example.domain.model.MyCart?) {
+    fun updateItems(item: MyCart?) {
         item?.let { myCart = it }
         notifyDataSetChanged()
     }
