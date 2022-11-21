@@ -7,8 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.effectivemobiletest.*
 import com.example.effectivemobiletest.databinding.ActivityMainBinding
-import com.example.effectivemobiletest.di.AppComponent
-import com.example.effectivemobiletest.domain.models.Cart
+import com.example.domain.model.Cart
 import com.example.effectivemobiletest.presentation.ui.mycart.MyCartActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -38,12 +37,13 @@ class MainActivity : AppCompatActivity(){
         })
 
         //отображение количества товаров в корзине на панели навигации
-        Cart.data.observe(this, {
+        com.example.domain.model.Cart.data.observe(this, {
             val botNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
             val badge = botNav.getOrCreateBadge(R.id.page_2)
             badge.isVisible = true
             badge.number = it.basket.size
         })
     }
+
 
 }

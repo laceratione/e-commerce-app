@@ -8,11 +8,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.data.repository.CloudRepositoryImpl
+import com.example.domain.model.BestProduct
+import com.example.domain.model.HotProduct
+import com.example.domain.model.MyCart
+import com.example.domain.usecase.GetDataCart
+import com.example.domain.usecase.GetDataHomeAct
 import com.example.effectivemobiletest.*
-import com.example.effectivemobiletest.domain.interactor.GetDataCart
-import com.example.effectivemobiletest.domain.interactor.GetDataHomeAct
-import com.example.effectivemobiletest.domain.models.*
-import com.example.effectivemobiletest.domain.repository.CloudProductRepository
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +44,7 @@ class HomeViewModel(application: Application) : ViewModel() {
     lateinit var popUpWindow: FilterSettings
 
     @Inject
-    lateinit var productRepository: CloudProductRepository
+    lateinit var cloudRepositoryImpl: CloudRepositoryImpl
 
     //загрузка данных с сервера
     init {
@@ -65,9 +67,9 @@ class HomeViewModel(application: Application) : ViewModel() {
             isHotSalesLoading.postValue(true)
             isBestSellerLoading.postValue(true)
 
-            val getDataHomeAct = GetDataHomeAct(productRepository)
-            getDataHomeAct().enqueue(object : Callback<Product> {
-                override fun onResponse(call: Call<Product>, response: Response<Product>) {
+            val getDataHomeAct = GetDataHomeAct(cloudRepositoryImpl)
+            getDataHomeAct().enqueue(object : Callback<com.example.domain.model.Product> {
+                override fun onResponse(call: Call<com.example.domain.model.Product>, response: Response<com.example.domain.model.Product>) {
                     val hotProducts = response.body()?.hotProducts
                     val bestProducts = response.body()?.bestProducts
                     GlobalScope.launch(Dispatchers.IO) {
@@ -81,7 +83,7 @@ class HomeViewModel(application: Application) : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<Product>, t: Throwable) {
+                override fun onFailure(call: Call<com.example.domain.model.Product>, t: Throwable) {
                     Log.d("myLogs", t.message.toString())
                 }
             })
@@ -92,20 +94,20 @@ class HomeViewModel(application: Application) : ViewModel() {
     //загрузка товаров из корзины пользователя
     suspend fun getDataMyCart() = coroutineScope {
         launch {
-            val getDataCart = GetDataCart(productRepository)
-            getDataCart().enqueue(object : Callback<MyCart> {
-                override fun onResponse(call: Call<MyCart>, response: Response<MyCart>) {
+            val getDataCart = GetDataCart(cloudRepositoryImpl)
+            getDataCart().enqueue(object : Callback<com.example.domain.model.MyCart> {
+                override fun onResponse(call: Call<com.example.domain.model.MyCart>, response: Response<com.example.domain.model.MyCart>) {
                     val myCart = response.body()
                     GlobalScope.launch(Dispatchers.IO) {
                         if (myCart != null) {
                             getBitmaps(myCart.basket)
                             dataMyCart.postValue(myCart)
-                            Cart.data.postValue(myCart)
+                            com.example.domain.model.Cart.data.postValue(myCart)
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<MyCart>, t: Throwable) {
+                override fun onFailure(call: Call<com.example.domain.model.MyCart>, t: Throwable) {
                     Log.d("myLogs", t.message.toString())
                 }
             })
@@ -114,7 +116,7 @@ class HomeViewModel(application: Application) : ViewModel() {
     }
 
     //ссылки URL преобразуем в Bitmap
-    suspend fun getBitmaps(items: List<BaseProduct>) = coroutineScope {
+    suspend fun getBitmaps(items: List<com.example.domain.model.BaseProduct>) = coroutineScope {
         launch {
             for (item in items) {
                 try {

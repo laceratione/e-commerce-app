@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletest.R
-import com.example.effectivemobiletest.domain.models.ProductDetails
 import java.lang.Exception
 
 //адаптер изображений ProductDetails
 class ProductDetailsAdapter (
 ) : RecyclerView.Adapter<ProductDetailsAdapter.ViewHolder>() {
-    private var productDetails: ProductDetails? = null
+    private var productDetails: com.example.domain.model.ProductDetails? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -38,7 +37,7 @@ class ProductDetailsAdapter (
         return count
     }
 
-    fun updateItems(item: ProductDetails?) {
+    fun updateItems(item: com.example.domain.model.ProductDetails?) {
         item?.let { productDetails = it }
         notifyDataSetChanged()
     }

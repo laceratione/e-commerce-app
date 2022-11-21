@@ -9,13 +9,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletest.R
-import com.example.effectivemobiletest.domain.models.HotProduct
 import java.lang.Exception
 
 //адаптер списка товаров Hot Sales
 class RecViewHotAdapter (
 ) : RecyclerView.Adapter<RecViewHotAdapter.ViewHolder>() {
-    private var hotProducts: List<HotProduct> = emptyList()
+    private var hotProducts: List<com.example.domain.model.HotProduct> = emptyList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -46,7 +45,7 @@ class RecViewHotAdapter (
         return hotProducts.size
     }
 
-    fun updateItems(items: List<HotProduct>?) {
+    fun updateItems(items: List<com.example.domain.model.HotProduct>?) {
         hotProducts = items ?: emptyList()
         notifyDataSetChanged()
     }

@@ -1,6 +1,4 @@
 package com.example.effectivemobiletest.presentation.ui.homepage
-
-import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View

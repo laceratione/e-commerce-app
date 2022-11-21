@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletest.R
-import com.example.effectivemobiletest.domain.models.ItemCateg
+import com.example.domain.model.ItemCateg
 import java.lang.Exception
 
 //адаптер списка категорий (Books, Computers etc)
@@ -33,7 +33,7 @@ class RecViewCategoriesAdapter(
     }
 
     public interface OnItemClickListener {
-        fun onItemClick(itemCateg: ItemCateg, view: View)
+        fun onItemClick(itemCateg: com.example.domain.model.ItemCateg, view: View)
     }
 
     override fun onCreateViewHolder(

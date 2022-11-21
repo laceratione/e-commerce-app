@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.effectivemobiletest.MyCart
+import com.example.domain.model.MyCart
 import com.example.effectivemobiletest.R
 import java.lang.Exception
 
 //адаптер списка элементов корзины
 class RecViewCartAdapter(
 ) : RecyclerView.Adapter<RecViewCartAdapter.ViewHolder>() {
-    private var myCart: MyCart? = null
+    private var myCart: com.example.domain.model.MyCart? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +41,7 @@ class RecViewCartAdapter(
         return count
     }
 
-    fun updateItems(item: MyCart?) {
+    fun updateItems(item: com.example.domain.model.MyCart?) {
         item?.let { myCart = it }
         notifyDataSetChanged()
     }

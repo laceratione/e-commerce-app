@@ -1,15 +1,15 @@
 package com.example.effectivemobiletest.di
 
-import com.example.effectivemobiletest.data.RetrofitAPI
-import com.example.effectivemobiletest.data.ServerAPI
-import com.example.effectivemobiletest.domain.repository.CloudProductRepository
+import com.example.data.api.RetrofitAPI
+import com.example.data.api.ServerAPI
+import com.example.data.repository.CloudRepositoryImpl
 import dagger.Module
 import dagger.Provides
 
 @Module
 class NetworkModule {
     @Provides
-    fun provideRetrofitAPI(): RetrofitAPI{
+    fun provideRetrofitAPI(): RetrofitAPI {
         return ServerAPI.getInstance().create(RetrofitAPI::class.java)
     }
 }
@@ -17,7 +17,7 @@ class NetworkModule {
 @Module
 class RepositoryModule{
     @Provides
-    fun provideProductRepository(retrofitAPI: RetrofitAPI): CloudProductRepository{
-        return CloudProductRepository(retrofitAPI)
+    fun provideCloudRepositoryImpl(retrofitAPI: RetrofitAPI): CloudRepositoryImpl {
+        return CloudRepositoryImpl(retrofitAPI)
     }
 }

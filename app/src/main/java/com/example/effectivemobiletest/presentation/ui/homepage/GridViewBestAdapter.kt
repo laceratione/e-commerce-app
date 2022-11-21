@@ -11,13 +11,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.effectivemobiletest.R
-import com.example.effectivemobiletest.domain.models.BestProduct
 import com.example.effectivemobiletest.presentation.ui.productdetails.ProductDetailsActivity
 
 //адаптер товаров Best Seller
 class GridViewBestAdapter (private val context: Context): BaseAdapter() {
     private var layoutInflater: LayoutInflater? = null
-    private var bestProducts: List<BestProduct> = emptyList()
+    private var bestProducts: List<com.example.domain.model.BestProduct> = emptyList()
     override fun getCount(): Int {
         return bestProducts.size
     }
@@ -69,7 +68,7 @@ class GridViewBestAdapter (private val context: Context): BaseAdapter() {
         return grid!!
     }
 
-    fun updateItems(items: List<BestProduct>?) {
+    fun updateItems(items: List<com.example.domain.model.BestProduct>?) {
         bestProducts = items ?: emptyList()
         notifyDataSetChanged()
     }
