@@ -1,10 +1,19 @@
 package com.example.domain.model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 //операции с корзиной
 object Cart {
-    var data: MutableLiveData<MyCart> = MutableLiveData()
+    private var data: MutableLiveData<MyCart> = MutableLiveData()
+    val dataLive: LiveData<MyCart> = data
+
+    //обновить корзину
+    fun updateCart(myCart: MyCart){
+        data.postValue(myCart)
+    }
+
+    fun getCart(): MutableLiveData<MyCart> = data
 
     //добавить товар
     fun add(item: ItemCart?) {}

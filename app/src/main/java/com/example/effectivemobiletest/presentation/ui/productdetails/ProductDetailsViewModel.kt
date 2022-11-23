@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.data.repository.CloudRepositoryImpl
 import com.example.domain.model.ProductDetails
 import com.example.domain.usecase.GetDataDetails
 import com.example.effectivemobiletest.App
@@ -26,11 +25,11 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
     val isProdDetLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     @Inject
-    lateinit var cloudRepositoryImpl: CloudRepositoryImpl
+    lateinit var dataDetailsUseCase: GetDataDetails
 
     //загрузка данных с сервера
     init {
-        (application as App).appComponent.injectProductDetailsViewModel(this)
+        (application as App).appComponent.inject(this)
 
         val jobGetDetails: Job = GlobalScope.launch(Dispatchers.IO) {
             getDataDetails()
@@ -42,8 +41,7 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
         launch {
             isProdDetLoading.postValue(true)
 
-            val getDataDetails = GetDataDetails(cloudRepositoryImpl)
-            getDataDetails().enqueue(object : Callback<ProductDetails> {
+            dataDetailsUseCase().enqueue(object : Callback<ProductDetails> {
                 override fun onResponse(call: Call<ProductDetails>, response: Response<ProductDetails>) {
                     val productDetails = response.body()
                     val bitmaps: MutableList<Bitmap> = mutableListOf()

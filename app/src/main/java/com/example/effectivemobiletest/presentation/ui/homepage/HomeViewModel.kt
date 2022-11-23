@@ -6,13 +6,10 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.data.repository.CloudRepositoryImpl
-import com.example.domain.model.BestProduct
-import com.example.domain.model.HotProduct
-import com.example.domain.model.MyCart
-import com.example.domain.model.Product
+import com.example.domain.model.*
 import com.example.domain.usecase.GetDataCart
 import com.example.domain.usecase.GetDataHomeAct
 import com.example.effectivemobiletest.*
@@ -39,17 +36,21 @@ class HomeViewModel(application: Application) : ViewModel() {
     val isBestSellerLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     //выбранная страница навигации
-    val botNavPage: MutableLiveData<Int> = MutableLiveData()
+    private val botNavPage: MutableLiveData<Int> = MutableLiveData()
+    val botNavPageLive: LiveData<Int> = botNavPage
 
     @Inject
     lateinit var popUpWindow: FilterSettings
 
     @Inject
-    lateinit var cloudRepositoryImpl: CloudRepositoryImpl
+    lateinit var dataHomeActUseCase: GetDataHomeAct
+
+    @Inject
+    lateinit var dataCartUseCase: GetDataCart
 
     //загрузка данных с сервера
     init {
-        (application as App).appComponent.injectHomeViewModel(this)
+        (application as App).appComponent.inject(this)
 
         val jobHotSales: Job = GlobalScope.launch(Dispatchers.IO) {
             getDataHotSales()
@@ -68,8 +69,7 @@ class HomeViewModel(application: Application) : ViewModel() {
             isHotSalesLoading.postValue(true)
             isBestSellerLoading.postValue(true)
 
-            val getDataHomeAct = GetDataHomeAct(cloudRepositoryImpl)
-            getDataHomeAct().enqueue(object : Callback<Product> {
+            dataHomeActUseCase().enqueue(object : Callback<Product> {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
                     val hotProducts = response.body()?.hotProducts
                     val bestProducts = response.body()?.bestProducts
@@ -95,15 +95,14 @@ class HomeViewModel(application: Application) : ViewModel() {
     //загрузка товаров из корзины пользователя
     suspend fun getDataMyCart() = coroutineScope {
         launch {
-            val getDataCart = GetDataCart(cloudRepositoryImpl)
-            getDataCart().enqueue(object : Callback<MyCart> {
+            dataCartUseCase().enqueue(object : Callback<MyCart> {
                 override fun onResponse(call: Call<MyCart>, response: Response<MyCart>) {
                     val myCart = response.body()
                     GlobalScope.launch(Dispatchers.IO) {
                         if (myCart != null) {
                             getBitmaps(myCart.basket)
                             dataMyCart.postValue(myCart)
-                            com.example.domain.model.Cart.data.postValue(myCart)
+                            Cart.updateCart(myCart)
                         }
                     }
                 }
@@ -117,7 +116,7 @@ class HomeViewModel(application: Application) : ViewModel() {
     }
 
     //ссылки URL преобразуем в Bitmap
-    suspend fun getBitmaps(items: List<com.example.domain.model.BaseProduct>) = coroutineScope {
+    suspend fun getBitmaps(items: List<BaseProduct>) = coroutineScope {
         launch {
             for (item in items) {
                 try {

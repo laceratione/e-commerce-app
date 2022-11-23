@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(){
         binding.selectCategoryAdapter = recViewCategoriesAdapter
 
         //открытие Activity по навигации
-        homeViewModel.botNavPage.observe(this, {
+        homeViewModel.botNavPageLive.observe(this, {
             when(it){
                 2 -> {
                     val intent = Intent(this, MyCartActivity::class.java)
@@ -37,12 +37,13 @@ class MainActivity : AppCompatActivity(){
         })
 
         //отображение количества товаров в корзине на панели навигации
-        Cart.data.observe(this, {
+        Cart.dataLive.observe(this, {
             val botNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
             val badge = botNav.getOrCreateBadge(R.id.page_2)
             badge.isVisible = true
             badge.number = it.basket.size
         })
+
     }
 
 

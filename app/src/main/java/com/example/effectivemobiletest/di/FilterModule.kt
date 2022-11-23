@@ -6,6 +6,7 @@ import dagger.Provides
 
 @Module
 class FilterModule {
+
     @Provides
     fun provideFilterSettings(): FilterSettings{
         return FilterSettings()

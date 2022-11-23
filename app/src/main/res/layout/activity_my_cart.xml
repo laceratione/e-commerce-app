@@ -73,7 +73,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                app:dataCart="@{myCartViewModel.dataMyCart}"
+                app:dataCart="@{myCartViewModel.dataCartLive}"
                 android:id="@+id/recViewMyCart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -118,7 +118,7 @@
                             android:textColor="@color/white"
                             android:textSize="18dp"
                             android:textStyle="bold"
-                            android:text="@{`$` + myCartViewModel.dataMyCart.total}"
+                            android:text="@{`$` + myCartViewModel.dataCartLive.total}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
@@ -142,7 +142,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{myCartViewModel.dataMyCart.delivery}"
+                            android:text="@{myCartViewModel.dataCartLive.delivery}"
                             android:textColor="@color/white"
                             android:textSize="18dp"
                             android:textStyle="bold" />
