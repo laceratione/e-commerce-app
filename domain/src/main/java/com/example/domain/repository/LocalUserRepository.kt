@@ -7,4 +7,5 @@ interface LocalUserRepository {
     fun deleteUser(userEntity: UserEntity)
     fun getAllUsers(): List<UserEntity>
     fun getUserByEmail(email: String): UserEntity?
+    fun getUserByFirstName(name: String): UserEntity?
 }

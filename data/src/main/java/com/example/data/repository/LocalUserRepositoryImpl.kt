@@ -27,4 +27,9 @@ class LocalUserRepositoryImpl(private val database: AppDataBase): LocalUserRepos
         return database.userDao().getUserByEmail(email)
     }
 
+    //получить пользователя по имени
+    override fun getUserByFirstName(name: String): UserEntity? {
+        return database.userDao().getUserByFirstName(name)
+    }
+
 }

@@ -18,7 +18,6 @@ class SignInViewModel(val application: Application): ViewModel() {
     var lastName: String = ""
     var email: String = ""
     var password: String = ""
-
     val formIsValid: MutableLiveData<Boolean> = MutableLiveData()
 
     private val _action = MutableLiveData<Action>()
@@ -43,6 +42,7 @@ class SignInViewModel(val application: Application): ViewModel() {
             val emailIsValid: Boolean =
                 !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
             val passwordIsValid: Boolean = !password.isEmpty() && password.length >= 6
+            //тут какой-то баг
             formIsValid.postValue(!firstName.isEmpty() && !lastName.isEmpty()
                     && emailIsValid && passwordIsValid)
 
@@ -72,5 +72,5 @@ class SignInViewModel(val application: Application): ViewModel() {
 }
 
 enum class Action{
-    NavigateToLogin, NavigateToHomePage
+    NavigateToLogin, NavigateToHomePage,
 }

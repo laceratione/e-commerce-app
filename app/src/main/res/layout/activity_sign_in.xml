@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="signInViewModel"
             type="com.example.effectivemobiletest.presentation.ui.signin.SignInViewModel" />

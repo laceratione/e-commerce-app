@@ -18,4 +18,7 @@ interface UserDao {
 
     @Query("select * from user_table where email = :email")
     fun getUserByEmail(email: String): UserEntity?
+
+    @Query("select * from user_table where first_name = :name")
+    fun getUserByFirstName(name: String): UserEntity?
 }
