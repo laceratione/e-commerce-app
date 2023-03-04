@@ -3,7 +3,10 @@ package com.example.effectivemobiletest.di
 import com.example.data.api.RetrofitAPI
 import com.example.data.api.ServerAPI
 import com.example.data.repository.CloudRepositoryImpl
+import com.example.data.repository.LocalUserRepositoryImpl
+import com.example.domain.model.AppDataBase
 import com.example.domain.repository.CloudRepository
+import com.example.domain.repository.LocalUserRepository
 import dagger.Module
 import dagger.Provides
 
@@ -22,5 +25,10 @@ class RepositoryModule{
     @Provides
     fun provideCloudRepositoryImpl(retrofitAPI: RetrofitAPI): CloudRepository {
         return CloudRepositoryImpl(retrofitAPI)
+    }
+
+    @Provides
+    fun provideLocalUserRepositoryImpl(database: AppDataBase): LocalUserRepository{
+        return LocalUserRepositoryImpl(database)
     }
 }

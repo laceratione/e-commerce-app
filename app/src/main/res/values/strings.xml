@@ -22,6 +22,21 @@
     <string name="add_address">Add address</string>
     <string name="my_cart_title">My Cart</string>
 
+    <string name="sign_in_title">Sign in</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
+    <string name="hint_email">Email</string>
+    <string name="btn_sign_in">Sign in</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_in_apple">Sign in with Apple</string>
+
+    <string name="login_title">Welcome back</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+
+    <string name="btn_upload_profile">Upload item</string>
+
     <string-array name="models">
         <item>Samsung</item>
         <item>Apple</item>

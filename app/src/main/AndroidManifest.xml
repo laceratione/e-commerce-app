@@ -13,6 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EffectiveMobileTest">
         <activity
+            android:name=".presentation.ui.profile.ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.login.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.signin.SignInActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".presentation.ui.mycart.MyCartActivity"
             android:exported="true" />
         <activity
@@ -21,10 +36,7 @@
         <activity
             android:name=".presentation.ui.homepage.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

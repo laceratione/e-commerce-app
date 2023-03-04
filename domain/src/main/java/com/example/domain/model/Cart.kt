@@ -13,6 +13,7 @@ object Cart {
         data.postValue(myCart)
     }
 
+    //вернуть корзину
     fun getCart(): MutableLiveData<MyCart> = data
 
     //добавить товар

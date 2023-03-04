@@ -6,18 +6,25 @@
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/splash.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_add_remove_panel.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_best_seller_item.xml" value="0.23333333333333334" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_btn.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_category_item.xml" value="0.23333333333333334" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_edit_text_sign_in.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_filter_view.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_hot_item.xml" value="0.23333333333333334" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_icon_profile.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_icons.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_icons_circle.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_my_cart.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_prod_det_tab.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_search_view.xml" value="0.23333333333333334" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_switch_capacity.xml" value="0.23333333333333334" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/drawable/style_switch_color.xml" value="0.23333333333333334" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_my_cart.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_product_details.xml" value="0.33" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/activity_splash.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/filter.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/EffectiveMobileTest/app/src/main/res/layout/gridview_best_seller_item.xml" value="0.33" />

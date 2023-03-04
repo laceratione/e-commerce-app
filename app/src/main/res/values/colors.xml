@@ -13,8 +13,10 @@
     <color name="myColor2">#010035</color>
     <color name="myColor3">#804030</color>
     <color name="white_shade1">#F8F8FF</color>
-    <color name="gray_shade1">#4D4D4D</color>
+
     <color name="gray">#CCCCCC</color>
+    <color name="gray_shade1">#4D4D4D</color>
     <color name="gray_shade2">#9B9B9B</color>
+    <color name="gray_shade3">#E8E8E8</color>
 
 </resources>
