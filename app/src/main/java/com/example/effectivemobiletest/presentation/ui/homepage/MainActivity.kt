@@ -4,11 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.effectivemobiletest.*
 import com.example.effectivemobiletest.databinding.ActivityMainBinding
 import com.example.domain.model.Cart
 import com.example.effectivemobiletest.presentation.ui.mycart.MyCartActivity
+import com.example.effectivemobiletest.presentation.ui.mycart.MyCartFragment
+import com.example.effectivemobiletest.presentation.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(){
@@ -23,15 +26,26 @@ class MainActivity : AppCompatActivity(){
         binding.homeViewModel = homeViewModel
         binding.lifecycleOwner = this
 
-        val recViewCategoriesAdapter: RecViewCategoriesAdapter = RecViewCategoriesAdapter(this)
-        binding.selectCategoryAdapter = recViewCategoriesAdapter
+        loadFragment(HomeFragment.newInstance())
 
         //открытие Activity по навигации
         homeViewModel.botNavPageLive.observe(this, {
             when(it){
+                1 -> {
+                    val fragment: Fragment = HomeFragment()
+                    loadFragment(fragment)
+                }
                 2 -> {
-                    val intent = Intent(this, MyCartActivity::class.java)
-                    startActivity(intent)
+//                    val intent = Intent(this, MyCartActivity::class.java)
+//                    startActivity(intent)
+                    val fragment: Fragment = MyCartFragment()
+                    loadFragment(fragment)
+                }
+                3 ->{}
+                4 -> {
+//                    getSupportActionBar()?.setTitle("Profle")
+                    val fragment: Fragment = ProfileFragment()
+                    loadFragment(fragment)
                 }
             }
         })
@@ -46,5 +60,10 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-
+    //загрузка фрагмента
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
 }

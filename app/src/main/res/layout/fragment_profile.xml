@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_shade1"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        tools:context=".presentation.ui.profile.ProfileActivity">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/man" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change photo"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Иван Иванов"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/style_btn"
+            android:drawableLeft="@drawable/ic_upload_item"
+            android:drawablePadding="50dp"
+            android:paddingStart="50dp"
+            android:text="@string/btn_upload_profile"
+            android:textAlignment="textStart"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_card"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:text="Trade store" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_card"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:text="Payment method" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_card"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:text="Balance" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_card"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:text="Trade history" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_restore"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:text="Restore purchase" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_help"
+            android:text="Help" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/style_btn_profile"
+            android:drawableLeft="@drawable/ic_logout"
+            android:text="Logout" />
+
+    </LinearLayout>
+</layout>

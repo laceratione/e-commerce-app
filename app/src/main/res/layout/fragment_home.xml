@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.content.Context" />
+        <import type="android.view.View" />
+
+        <variable
+            name="selectCategoryAdapter"
+            type="com.example.effectivemobiletest.presentation.ui.homepage.RecViewCategoriesAdapter" />
+
+        <variable
+            name="homeViewModel"
+            type="com.example.effectivemobiletest.presentation.ui.homepage.HomeViewModel" />
+    </data>
+
+    <LinearLayout
+        android:background="@color/white_shade1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".presentation.ui.homepage.MainActivity"
+            android:layout_margin="20dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_location_orange"/>
+
+                    <TextView
+                        android:textColor="@color/myColor2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/location"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_down_arrow"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:onClick="@{(view)->homeViewModel.showFilterSettings(view)}"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_filter"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/myColor2"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="28dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_category" />
+
+                <TextView
+                    android:textColor="@color/myColor1"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_all" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="20dp"
+                android:id="@+id/recViewCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adapter="@{selectCategoryAdapter}"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:searchIcon="@drawable/ic_search_orange"
+                    android:id="@+id/searchView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/style_search_view"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/search_view_hint" />
+
+                <ImageView
+                    android:padding="4dp"
+                    android:backgroundTint="@color/myColor1"
+                    android:background="@drawable/style_icons_circle"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/icon_scanner"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_qr_code" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/myColor2"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="28dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hot_sales" />
+
+                <TextView
+                    android:textColor="@color/myColor1"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_more" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recViewHotSales"
+                app:dataHotProducts="@{homeViewModel.dataHotProducts}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
+            <ProgressBar
+                android:id="@+id/pbHotSales"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:visibility="@{homeViewModel.isHotSalesLoading() ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/myColor2"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="28dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/best_seller" />
+
+                <TextView
+                    android:textColor="@color/myColor1"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_more" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/pbBestSeller"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:visibility="@{homeViewModel.isBestSellerLoading() ? View.VISIBLE : View.GONE}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <GridView
+                    android:scrollbars="none"
+                    android:fastScrollEnabled="true"
+                    app:dataBestProducts="@{homeViewModel.dataBestProducts}"
+                    android:id="@+id/gwBestSeller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="200dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="10dp"
+                    android:verticalSpacing="10dp"
+                    android:numColumns="2"
+                    android:stretchMode="columnWidth"
+                    app:myContext="@{context}"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

@@ -138,7 +138,10 @@ class HomeViewModel(application: Application) : ViewModel() {
     //возвращает индекс выбранной страницы
     fun bottomNavItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.page_1 -> botNavPage.value = 1
             R.id.page_2 -> botNavPage.value = 2
+            R.id.page_3 -> botNavPage.value = 3
+            R.id.page_4 -> botNavPage.value = 4
         }
 
         return true
