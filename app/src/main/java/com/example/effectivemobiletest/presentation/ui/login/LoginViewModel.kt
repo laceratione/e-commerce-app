@@ -1,6 +1,7 @@
 package com.example.effectivemobiletest.presentation.ui.login
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,11 +17,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel(val application: Application) : ViewModel() {
-    var firstName: String = ""
+    var email: String = ""
     var password: String = ""
 
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
+
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     @Inject
     lateinit var localUserRepository: LocalUserRepository
@@ -32,26 +36,27 @@ class LoginViewModel(val application: Application) : ViewModel() {
     suspend fun login() = coroutineScope {
         launch {
             //проверка корректности полей
-            val formIsValid = !firstName.isEmpty() && !password.isEmpty()
+            val formIsValid = !email.isEmpty() && !password.isEmpty()
 
             if (formIsValid == false) {
-                Log.d("myLogs", "Данные не корректны")
+                _message.postValue("Данные некорректны")
                 return@launch
             }
 
             //переход на главную страницу
-            val user: UserEntity? = localUserRepository.getUserByFirstName(firstName)
+            val user: UserEntity? = localUserRepository.getUserByEmail(email)
             user?.let {
                 if (password.equals(it.password)){
-                    Log.d("myLogs", "Вход выполнен успешно")
+
+                    _message.postValue("Вход выполнен успешно")
                     _action.postValue(Action.NavigateToHomePage)
                 }else{
-                    Log.d("myLogs", "Неверный ввод пароля")
+                    _message.postValue("Неверный ввод пароля")
                 }
                 return@launch
             }
 
-            Log.d("myLogs", "//Данной учетной записи не существует")
+            _message.postValue("Данной учетной записи не существует")
         }
     }
 
@@ -60,4 +65,5 @@ class LoginViewModel(val application: Application) : ViewModel() {
             login()
         }.start()
     }
+
 }

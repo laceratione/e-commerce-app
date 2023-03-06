@@ -29,10 +29,11 @@
             style="@style/style_layout_edit_text_login">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:text="@={loginViewModel.firstName}"
+                android:text="@={loginViewModel.email}"
                 android:id="@+id/etFirstName"
                 style="@style/style_edit_text_login"
-                android:hint="@string/hint_first_name" />
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

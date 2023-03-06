@@ -1,8 +1,12 @@
 package com.example.effectivemobiletest.presentation.ui.login
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.effectivemobiletest.R
@@ -25,10 +29,22 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.action.observe(this, {
             when(it){
                 Action.NavigateToHomePage -> {
+                    saveCurrentUser(loginViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
             }
         })
+
+        loginViewModel.message.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun saveCurrentUser(email: String){
+        val sharedPreferences = getSharedPreferences("currentUser", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.commit()
     }
 }

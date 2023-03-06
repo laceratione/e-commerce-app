@@ -3,23 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            type="com.example.effectivemobiletest.presentation.ui.profile.ProfileViewModel"
+            name="profileViewModel" />
+    </data>
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_shade1"
         android:orientation="vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        tools:context=".presentation.ui.profile.ProfileActivity">
+        android:paddingRight="20dp" >
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/photoProfile"
             android:layout_marginTop="20dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/man" />
+            app:srcCompat="@drawable/man"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
         <TextView
+            android:onClick="@{() -> profileViewModel.changePhoto()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Change photo"
@@ -85,9 +93,10 @@
             android:text="Help" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:onClick="@{() -> profileViewModel.logoutJob()}"
             style="@style/style_btn_profile"
             android:drawableLeft="@drawable/ic_logout"
-            android:text="Logout" />
+            android:text="Log out" />
 
     </LinearLayout>
 </layout>

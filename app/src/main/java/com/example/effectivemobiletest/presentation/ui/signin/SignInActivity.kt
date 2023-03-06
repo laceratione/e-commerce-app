@@ -1,16 +1,17 @@
 package com.example.effectivemobiletest.presentation.ui.signin
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivitySignInBinding
-import com.example.effectivemobiletest.presentation.ui.homepage.HomeViewModelFactory
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
 import com.example.effectivemobiletest.presentation.ui.login.LoginActivity
-import com.example.effectivemobiletest.presentation.ui.mycart.MyCartActivity
+import kotlin.math.sign
 
 class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +32,23 @@ class SignInActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 Action.NavigateToHomePage -> {
+                    saveCurrentUser(signInViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
             }
         })
 
+        signInViewModel.message.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
+    }
 
+    //сделать его типов object
+    private fun saveCurrentUser(email: String){
+        val sharedPreferences = getSharedPreferences("currentUser", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.commit()
     }
 }

@@ -3,10 +3,10 @@ package com.example.effectivemobiletest.presentation.ui.signin
 import android.app.Application
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.User
 import com.example.domain.model.UserEntity
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
@@ -18,10 +18,12 @@ class SignInViewModel(val application: Application): ViewModel() {
     var lastName: String = ""
     var email: String = ""
     var password: String = ""
-    val formIsValid: MutableLiveData<Boolean> = MutableLiveData()
 
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
+
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     @Inject
     lateinit var localUserRepository: LocalUserRepository
@@ -42,24 +44,23 @@ class SignInViewModel(val application: Application): ViewModel() {
             val emailIsValid: Boolean =
                 !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
             val passwordIsValid: Boolean = !password.isEmpty() && password.length >= 6
-            //тут какой-то баг
-            formIsValid.postValue(!firstName.isEmpty() && !lastName.isEmpty()
-                    && emailIsValid && passwordIsValid)
+            val formIsValid: Boolean = !firstName.isEmpty() && !lastName.isEmpty()
+                    && emailIsValid && passwordIsValid
 
-            if (formIsValid.value == false){
-                Log.d("myLogs", "ДАННЫЕ НЕ КОРРЕКТНЫ")
+            if (formIsValid == false){
+                _message.postValue("Данные некорректны")
                 return@launch
             }
             //проверка на уже существующего пользователя
             val alreadyUserHave: UserEntity? = localUserRepository.getUserByEmail(email)
             alreadyUserHave?.let {
-                Log.d("myLogs", "ТАКОЙ ПОЛЬЗОВАТЕЛЬ УЖЕ СУЩЕСТВУЕТ")
+                _message.postValue("Такой пользователь уже существует")
                 return@launch
             }
             //запись данных пользователя в БД
             localUserRepository.addUser(UserEntity(0, firstName, lastName, email, password))
+            _message.postValue("Регистрация прошла успешно")
             _action.postValue(Action.NavigateToHomePage)
-            Log.d("myLogs", "РЕГИСТРАЦИЯ ПРОШЛА УСПЕШНО")
         }
 
     }
@@ -72,5 +73,6 @@ class SignInViewModel(val application: Application): ViewModel() {
 }
 
 enum class Action{
-    NavigateToLogin, NavigateToHomePage,
+    NavigateToLogin, NavigateToHomePage, NavigateToSignIn,
+    ChangePhoto,
 }
