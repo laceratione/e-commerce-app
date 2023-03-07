@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.domain.model.MySharedPref
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivityLoginBinding
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
@@ -29,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.action.observe(this, {
             when(it){
                 Action.NavigateToHomePage -> {
-                    saveCurrentUser(loginViewModel.email)
+                    MySharedPref.saveCurrentUser(this, loginViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -41,10 +42,5 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun saveCurrentUser(email: String){
-        val sharedPreferences = getSharedPreferences("currentUser", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("email", email)
-        editor.commit()
-    }
+
 }

@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.domain.model.MySharedPref
 import com.example.domain.model.UserEntity
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
@@ -31,13 +32,11 @@ class ProfileViewModel(val application: Application): ViewModel() {
     //выход из учетной записи
     suspend fun logout() = coroutineScope{
         launch {
-            val sharedPreferences = application.getSharedPreferences("currentUser", Context.MODE_PRIVATE)
-            val email: String? = sharedPreferences.getString("email", "error_email")
+            val email = MySharedPref.getDataUser(application, "email")
             val user: UserEntity? = localUserRepository.getUserByEmail(email!!)
             user?.let {
                 localUserRepository.deleteUser(it)
-                val editor = sharedPreferences.edit()
-                editor.clear()
+                MySharedPref.clear(application)
             }
             _action.postValue(Action.NavigateToSignIn)
         }

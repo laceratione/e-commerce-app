@@ -26,9 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ui.mycart.MyCartActivity"
-            android:exported="true" />
-        <activity
             android:name=".presentation.ui.productdetails.ProductDetailsActivity"
             android:exported="true" />
         <activity

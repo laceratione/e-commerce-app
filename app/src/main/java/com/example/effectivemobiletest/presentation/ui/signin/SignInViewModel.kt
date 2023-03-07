@@ -49,6 +49,7 @@ class SignInViewModel(val application: Application): ViewModel() {
 
             if (formIsValid == false){
                 _message.postValue("Данные некорректны")
+                //тут можно уточнить, что конкретно некорректно
                 return@launch
             }
             //проверка на уже существующего пользователя

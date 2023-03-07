@@ -2,11 +2,13 @@ package com.example.effectivemobiletest.presentation.ui.signin
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.domain.model.MySharedPref
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivitySignInBinding
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
@@ -32,7 +34,7 @@ class SignInActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 Action.NavigateToHomePage -> {
-                    saveCurrentUser(signInViewModel.email)
+                    MySharedPref.saveCurrentUser(this, signInViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -44,11 +46,5 @@ class SignInActivity : AppCompatActivity() {
         })
     }
 
-    //сделать его типов object
-    private fun saveCurrentUser(email: String){
-        val sharedPreferences = getSharedPreferences("currentUser", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("email", email)
-        editor.commit()
-    }
+
 }

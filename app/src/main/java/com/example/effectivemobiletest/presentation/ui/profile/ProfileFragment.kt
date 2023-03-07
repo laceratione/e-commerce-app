@@ -43,7 +43,6 @@ class ProfileFragment: Fragment() {
                     val uri: Uri? =  data?.getData()
                     val bitmap: Bitmap =
                         MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
-//                    binding.photoProfile.background = getShape()
                     binding.photoProfile.setImageBitmap(bitmap)
 
                 } catch (e: FileNotFoundException){
@@ -56,12 +55,11 @@ class ProfileFragment: Fragment() {
             }
         }
 
-        //очищать ли backstack после возвращения на sign in?
         sharedViewModel.action.observe(requireActivity(), {
-//            requireActivity().supportFragmentManager.beginTransaction().remove(this)
             when(it){
                 Action.NavigateToSignIn -> {
                     val intent = Intent(requireContext(), SignInActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                 }
                 Action.ChangePhoto -> {

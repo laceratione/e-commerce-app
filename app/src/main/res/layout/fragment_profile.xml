@@ -69,11 +69,26 @@
             android:drawableRight="@drawable/ic_arrow_right"
             android:text="Payment method" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_card"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:text="Balance" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBalance"
+                style="@style/style_btn_profile"
+                android:drawableLeft="@drawable/ic_card"
+                android:text="Balance" />
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginRight="20dp"
+                android:layout_alignBaseline="@id/btnBalance"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/myColor1"
+                android:text="1600$"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             style="@style/style_btn_profile"

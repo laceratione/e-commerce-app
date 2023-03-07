@@ -3,6 +3,7 @@ package com.example.effectivemobiletest.presentation.ui.login
 import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,7 +37,9 @@ class LoginViewModel(val application: Application) : ViewModel() {
     suspend fun login() = coroutineScope {
         launch {
             //проверка корректности полей
-            val formIsValid = !email.isEmpty() && !password.isEmpty()
+            val emailIsValid: Boolean =
+                !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            val formIsValid = emailIsValid && !password.isEmpty()
 
             if (formIsValid == false) {
                 _message.postValue("Данные некорректны")
