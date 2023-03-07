@@ -1,5 +1,5 @@
 # e-commerce-app
 
-https://user-images.githubusercontent.com/43997427/223441001-62b5c54a-258f-49bc-b1f0-9982457e29db.mov
+https://user-images.githubusercontent.com/43997427/223446250-553d6a5d-26e9-4c8d-a86e-ba822c8ff4ac.mov
 
-Приложение подтормаживает из-за эмулятора
+Приложение подтормаживает по причине потребления эмулятором большого количества ОЗУ.
