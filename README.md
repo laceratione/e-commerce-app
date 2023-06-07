@@ -16,7 +16,13 @@ ____
 - посмотреть наиболее продаваемые товары/добавить в список "Понравившиеся"
 - посмотреть подробную информацию о товаре
 - открыть фильтр товаров
+<h1 align="center">
+  <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/3c1aa025-2abd-4306-9863-5eecb91e10c9" width="250" height="500">
+  <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/85bab556-60d5-424a-b16d-be8893869ae2" width="250" height="500">
+</h1>
 
+____
+## Видео
 
 https://user-images.githubusercontent.com/43997427/223446250-553d6a5d-26e9-4c8d-a86e-ba822c8ff4ac.mov
 
