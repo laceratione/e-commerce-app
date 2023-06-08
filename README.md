@@ -51,6 +51,16 @@ ____
 </h1>
 
 ____
+## Стек используемых технологий
+- ЯП Kotlin
+- Kotlin Coroutines
+- Retrofit2
+- Dagger2
+- Room
+- MVVM
+- Clean Architecture
+
+____
 ## Демонстрация приложения
 
 https://user-images.githubusercontent.com/43997427/223446250-553d6a5d-26e9-4c8d-a86e-ba822c8ff4ac.mov
