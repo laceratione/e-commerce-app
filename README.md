@@ -29,6 +29,16 @@ ____
   <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/9e92c009-c74f-439a-9099-176cda7c510a" width="250" height="500">
 </h1>
 
+____
+## Корзина
+Данный экран отображает следующую информацию:
+- содержимое корзины
+- общая сумма товаров
+- сумма доставки
+<h1 align="center">
+  <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/17eab3dd-1c72-4a3a-888e-7e927beb8296" width="250" height="500">
+</h1>
+
 
 ____
 ## Видео
