@@ -39,9 +39,19 @@ ____
   <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/17eab3dd-1c72-4a3a-888e-7e927beb8296" width="250" height="500">
 </h1>
 
+____
+## Профиль пользователя
+Данный экран позволяет:
+- добавить/изменить аватар пользователя
+- просмотреть личные данные (имя, фамилия)
+- увидеть баланс карты
+- выйти из приложения
+<h1 align="center">
+  <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/e4dec537-f137-44cb-b42c-8252ecad3080" width="250" height="500">
+</h1>
 
 ____
-## Видео
+## Демонстрация приложения
 
 https://user-images.githubusercontent.com/43997427/223446250-553d6a5d-26e9-4c8d-a86e-ba822c8ff4ac.mov
 
