@@ -16,10 +16,18 @@ ____
 - посмотреть наиболее продаваемые товары/добавить в список "Понравившиеся"
 - посмотреть подробную информацию о товаре
 - открыть фильтр товаров
+На экране с подробной информацией товара можно:
+- посмотреть фото товара
+- посмотреть характеристики товара
+- выбрать расцветку и объем памяти устройства
+- добавить товар в корзину
+ 
 <h1 align="center">
   <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/3c1aa025-2abd-4306-9863-5eecb91e10c9" width="250" height="500">
   <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/85bab556-60d5-424a-b16d-be8893869ae2" width="250" height="500">
+  <img src="https://github.com/laceratione/e-commerce-app/assets/43997427/9e92c009-c74f-439a-9099-176cda7c510a" width="250" height="500">
 </h1>
+
 
 ____
 ## Видео
