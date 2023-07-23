@@ -1,19 +1,15 @@
 package com.example.effectivemobiletest.presentation.ui.signin
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.domain.model.MySharedPref
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivitySignInBinding
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
 import com.example.effectivemobiletest.presentation.ui.login.LoginActivity
-import kotlin.math.sign
 
 class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +30,6 @@ class SignInActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 Action.NavigateToHomePage -> {
-                    MySharedPref.saveCurrentUser(this, signInViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }

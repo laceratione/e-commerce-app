@@ -1,15 +1,11 @@
 package com.example.effectivemobiletest.presentation.ui.login
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.domain.model.MySharedPref
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivityLoginBinding
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
@@ -30,7 +26,6 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.action.observe(this, {
             when(it){
                 Action.NavigateToHomePage -> {
-                    MySharedPref.saveCurrentUser(this, loginViewModel.email)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }

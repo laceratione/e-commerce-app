@@ -4,7 +4,7 @@ import com.example.data.api.RetrofitAPI
 import com.example.data.api.ServerAPI
 import com.example.data.repository.CloudRepositoryImpl
 import com.example.data.repository.LocalUserRepositoryImpl
-import com.example.domain.model.AppDataBase
+import com.example.data.AppDataBase
 import com.example.domain.repository.CloudRepository
 import com.example.domain.repository.LocalUserRepository
 import dagger.Module

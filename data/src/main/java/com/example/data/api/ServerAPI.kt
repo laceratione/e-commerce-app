@@ -14,6 +14,6 @@ object ServerAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-        return retrofit!!;
+        return retrofit!!
     }
 }

@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity(){
                 }
                 3 ->{}
                 4 -> {
-//                    getSupportActionBar()?.setTitle("Profle")
                     fragment = ProfileFragment()
                     loadFragment(fragment)
                 }

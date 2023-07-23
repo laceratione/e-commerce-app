@@ -2,10 +2,9 @@ package com.example.effectivemobiletest.presentation.ui.profile
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,32 @@ import com.example.effectivemobiletest.presentation.ui.signin.Action
 import com.example.effectivemobiletest.presentation.ui.signin.SignInActivity
 import java.io.FileNotFoundException
 
-class ProfileFragment: Fragment() {
-    private val sharedViewModel: ProfileViewModel by activityViewModels() {ProfileViewModelFactory(requireActivity().application)}
+
+class ProfileFragment : Fragment() {
+    private val sharedViewModel: ProfileViewModel by activityViewModels() {
+        ProfileViewModelFactory(
+            requireActivity().application
+        )
+    }
+
+    //проводник
+    private var launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                try {
+                    val uri: Uri? = result.data?.getData()
+                    sharedViewModel.loadImageFromGallery(uri.toString())
+                    sharedViewModel.setUserPhotoJob(uri.toString())
+                    Log.d("myLogs", "URI  set: ${uri.toString()}")
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                    Toast.makeText(requireContext(), "File not found", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(requireContext(),"You haven't selected photo", Toast.LENGTH_LONG).show();
+            }
+            sharedViewModel._action.value = Action.Default
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,42 +58,36 @@ class ProfileFragment: Fragment() {
         }
         binding.setLifecycleOwner(this)
 
-        val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-                result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                try{
-                    val data: Intent? = result.data
-                    val uri: Uri? =  data?.getData()
-                    val bitmap: Bitmap =
-                        MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
-                    binding.photoProfile.setImageBitmap(bitmap)
-
-                } catch (e: FileNotFoundException){
-                    e.printStackTrace()
-                    Toast.makeText(requireContext(), "File not found", Toast.LENGTH_LONG).show()
-                }
-            }
-            else{
-                Toast.makeText(requireContext(), "You haven't selected photo",Toast.LENGTH_LONG).show();
-            }
+        binding.tvChangePhoto.setOnClickListener {
+            loadImage()
         }
 
-        sharedViewModel.action.observe(requireActivity(), {
-            when(it){
+        sharedViewModel._action.observe(requireActivity(), {
+            when (it) {
                 Action.NavigateToSignIn -> {
                     val intent = Intent(requireContext(), SignInActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
+                    requireActivity().finish()
+                    Log.d("myLogs", "MainACtivity is FINISHED")
                 }
-                Action.ChangePhoto -> {
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.setType("image/*")
-                    launcher.launch(intent)
-                }
+                Action.Default -> {}
             }
         })
 
+        sharedViewModel.uriPhoto.observe(requireActivity(), {
+            binding.photoProfile.setImageURI(Uri.parse(it))
+        })
+
+
         return binding.root
+    }
+
+    private fun loadImage(){
+        Log.d("myLogs", "ACTION CHANGEPHOTO")
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.setType("image/*")
+        launcher.launch(intent)
     }
 
     companion object {

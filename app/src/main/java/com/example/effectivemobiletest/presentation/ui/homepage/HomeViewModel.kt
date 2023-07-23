@@ -9,6 +9,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.model.*
 import com.example.domain.usecase.GetDataCart
 import com.example.domain.usecase.GetDataHomeAct
@@ -52,15 +53,13 @@ class HomeViewModel(application: Application) : ViewModel() {
     init {
         (application as App).appComponent.inject(this)
 
-        val jobHotSales: Job = GlobalScope.launch(Dispatchers.IO) {
+        val jobHotSales = viewModelScope.launch(Dispatchers.IO) {
             getDataHotSales()
-        }
-        jobHotSales.start()
+        }.start()
 
-        val jobMyCart: Job = GlobalScope.launch(Dispatchers.IO) {
+        val jobMyCart = viewModelScope.launch(Dispatchers.IO) {
             getDataMyCart()
-        }
-        jobMyCart.start()
+        }.start()
     }
 
     //загрузка товаров категорий Hot Sales, Best Seller
@@ -73,7 +72,7 @@ class HomeViewModel(application: Application) : ViewModel() {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
                     val hotProducts = response.body()?.hotProducts
                     val bestProducts = response.body()?.bestProducts
-                    GlobalScope.launch(Dispatchers.IO) {
+                    viewModelScope.launch(Dispatchers.IO) {
                         getBitmaps(hotProducts!!)
                         dataHotProducts.postValue(hotProducts)
                         isHotSalesLoading.postValue(false)
@@ -98,7 +97,7 @@ class HomeViewModel(application: Application) : ViewModel() {
             dataCartUseCase().enqueue(object : Callback<MyCart> {
                 override fun onResponse(call: Call<MyCart>, response: Response<MyCart>) {
                     val myCart = response.body()
-                    GlobalScope.launch(Dispatchers.IO) {
+                    viewModelScope.launch(Dispatchers.IO) {
                         if (myCart != null) {
                             getBitmaps(myCart.basket)
                             dataMyCart.postValue(myCart)
@@ -121,7 +120,7 @@ class HomeViewModel(application: Application) : ViewModel() {
             for (item in items) {
                 try {
                     val picture = URL(item.picture).openStream()
-                    var bitmap: Bitmap = BitmapFactory.decodeStream(picture)
+                    val bitmap: Bitmap = BitmapFactory.decodeStream(picture)
                     item.bitmap = bitmap
                 } catch (e: Exception) {
                     e.printStackTrace()

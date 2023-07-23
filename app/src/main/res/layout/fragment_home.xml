@@ -221,8 +221,7 @@
                     android:verticalSpacing="10dp"
                     android:numColumns="2"
                     android:stretchMode="columnWidth"
-                    app:myContext="@{context}"
-                    />
+                    app:myContext="@{context}"/>
 
             </RelativeLayout>
         </LinearLayout>

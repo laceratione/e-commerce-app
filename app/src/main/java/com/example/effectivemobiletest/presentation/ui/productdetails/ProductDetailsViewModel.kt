@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.model.ProductDetails
 import com.example.domain.usecase.GetDataDetails
 import com.example.effectivemobiletest.App
@@ -31,7 +32,7 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
     init {
         (application as App).appComponent.inject(this)
 
-        val jobGetDetails: Job = GlobalScope.launch(Dispatchers.IO) {
+        val jobGetDetails: Job = viewModelScope.launch(Dispatchers.IO) {
             getDataDetails()
         }
         jobGetDetails.start()
@@ -45,12 +46,12 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
                 override fun onResponse(call: Call<ProductDetails>, response: Response<ProductDetails>) {
                     val productDetails = response.body()
                     val bitmaps: MutableList<Bitmap> = mutableListOf()
-                    GlobalScope.launch(Dispatchers.IO) {
+                    viewModelScope.launch(Dispatchers.IO) {
                         if (productDetails != null) {
                             for (item in productDetails.images) {
                                 try {
                                     val picture = URL(item).openStream()
-                                    var bitmap: Bitmap = BitmapFactory.decodeStream(picture)
+                                    val bitmap: Bitmap = BitmapFactory.decodeStream(picture)
                                     bitmaps.add(bitmap)
                                 } catch (e: Exception) {
                                     e.printStackTrace()

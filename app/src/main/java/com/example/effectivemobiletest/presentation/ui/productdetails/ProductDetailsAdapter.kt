@@ -33,7 +33,7 @@ class ProductDetailsAdapter (
     }
 
     override fun getItemCount(): Int {
-        var count = productDetails?.images?.size ?: 0
+        val count = productDetails?.images?.size ?: 0
         return count
     }
 

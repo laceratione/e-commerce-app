@@ -3,11 +3,13 @@ package com.example.effectivemobiletest.presentation.ui.signin
 import android.app.Application
 import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.UserEntity
+import androidx.lifecycle.viewModelScope
+import com.example.data.MySharedPref
+import com.example.data.user.UserEntity
+import com.example.data.user.toData
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
 import kotlinx.coroutines.*
@@ -27,6 +29,9 @@ class SignInViewModel(val application: Application): ViewModel() {
 
     @Inject
     lateinit var localUserRepository: LocalUserRepository
+
+    @Inject
+    lateinit var mySharedPref: MySharedPref
 
     init {
         (application as App).appComponent.inject(this)
@@ -53,21 +58,25 @@ class SignInViewModel(val application: Application): ViewModel() {
                 return@launch
             }
             //проверка на уже существующего пользователя
-            val alreadyUserHave: UserEntity? = localUserRepository.getUserByEmail(email)
+            val alreadyUserHave: UserEntity? = localUserRepository.getUserByEmail(email)?.toData()
             alreadyUserHave?.let {
                 _message.postValue("Такой пользователь уже существует")
                 return@launch
             }
             //запись данных пользователя в БД
-            localUserRepository.addUser(UserEntity(0, firstName, lastName, email, password))
+            val user = UserEntity(0, firstName, lastName, email, password, null)
+            localUserRepository.addUser(user.toDomain())
+            mySharedPref.setCurrentUser(email)
             _message.postValue("Регистрация прошла успешно")
             _action.postValue(Action.NavigateToHomePage)
+
+            Log.d("myLogs", "User: ${user.email}, ID: ${user.id}")
         }
 
     }
 
     fun signInJob(){
-        val jobSignIn = GlobalScope.launch(Dispatchers.IO){
+        val jobSignIn = viewModelScope.launch(Dispatchers.IO){
             signin()
         }.start()
     }
@@ -75,5 +84,5 @@ class SignInViewModel(val application: Application): ViewModel() {
 
 enum class Action{
     NavigateToLogin, NavigateToHomePage, NavigateToSignIn,
-    ChangePhoto,
+    ChangePhoto,Default,
 }

@@ -18,6 +18,7 @@ import com.example.effectivemobiletest.presentation.ui.productdetails.ProductDet
 class GridViewBestAdapter (private val context: Context): BaseAdapter() {
     private var layoutInflater: LayoutInflater? = null
     private var bestProducts: List<BestProduct> = emptyList()
+
     override fun getCount(): Int {
         return bestProducts.size
     }

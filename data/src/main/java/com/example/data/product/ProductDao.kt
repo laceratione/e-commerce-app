@@ -1,6 +1,7 @@
-package com.example.domain.model
+package com.example.data.product
 
 import androidx.room.*
+import com.example.domain.model.BaseProduct
 
 @Dao
 interface ProductDao {

@@ -1,18 +1,18 @@
 package com.example.effectivemobiletest.presentation.ui.login
 
 import android.app.Application
-import android.content.SharedPreferences
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.UserEntity
+import androidx.lifecycle.viewModelScope
+import com.example.data.MySharedPref
+import com.example.data.user.UserEntity
+import com.example.data.user.toData
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
 import com.example.effectivemobiletest.presentation.ui.signin.Action
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +20,7 @@ import javax.inject.Inject
 class LoginViewModel(val application: Application) : ViewModel() {
     var email: String = ""
     var password: String = ""
+    var user: UserEntity? = null
 
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
@@ -29,6 +30,9 @@ class LoginViewModel(val application: Application) : ViewModel() {
 
     @Inject
     lateinit var localUserRepository: LocalUserRepository
+
+    @Inject
+    lateinit var mySharedPref: MySharedPref
 
     init {
         (application as App).appComponent.inject(this)
@@ -47,10 +51,10 @@ class LoginViewModel(val application: Application) : ViewModel() {
             }
 
             //переход на главную страницу
-            val user: UserEntity? = localUserRepository.getUserByEmail(email)
+            user = localUserRepository.getUserByEmail(email)?.toData()
             user?.let {
                 if (password.equals(it.password)){
-
+                    mySharedPref.setCurrentUser(email)
                     _message.postValue("Вход выполнен успешно")
                     _action.postValue(Action.NavigateToHomePage)
                 }else{
@@ -64,7 +68,7 @@ class LoginViewModel(val application: Application) : ViewModel() {
     }
 
     fun logInJob() {
-        val jobLogIn = GlobalScope.launch(Dispatchers.IO) {
+        val jobLogIn = viewModelScope.launch(Dispatchers.IO) {
             login()
         }.start()
     }

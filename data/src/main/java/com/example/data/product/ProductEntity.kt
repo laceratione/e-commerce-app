@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.data.product
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

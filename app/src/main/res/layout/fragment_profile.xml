@@ -27,7 +27,7 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
         <TextView
-            android:onClick="@{() -> profileViewModel.changePhoto()}"
+            android:id="@+id/tvChangePhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Change photo"
@@ -108,7 +108,7 @@
             android:text="Help" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:onClick="@{() -> profileViewModel.logoutJob()}"
+            android:onClick="@{() -> profileViewModel.logout()}"
             style="@style/style_btn_profile"
             android:drawableLeft="@drawable/ic_logout"
             android:text="Log out" />
