@@ -14,6 +14,4 @@ class DetailsPageAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapt
     override fun createFragment(position: Int): Fragment {
         return ShopFragment.newInstance(position + 1)
     }
-
-
 }

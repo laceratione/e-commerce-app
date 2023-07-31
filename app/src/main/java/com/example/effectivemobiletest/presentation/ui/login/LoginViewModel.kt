@@ -18,9 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel(val application: Application) : ViewModel() {
-    var email: String = ""
-    var password: String = ""
-    var user: UserEntity? = null
+    private var user: UserEntity? = null
 
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
@@ -28,6 +26,7 @@ class LoginViewModel(val application: Application) : ViewModel() {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    //обернуть в usecase
     @Inject
     lateinit var localUserRepository: LocalUserRepository
 
@@ -38,7 +37,7 @@ class LoginViewModel(val application: Application) : ViewModel() {
         (application as App).appComponent.inject(this)
     }
 
-    suspend fun login() = coroutineScope {
+    private suspend fun login(email: String, password: String) = coroutineScope {
         launch {
             //проверка корректности полей
             val emailIsValid: Boolean =
@@ -50,27 +49,30 @@ class LoginViewModel(val application: Application) : ViewModel() {
                 return@launch
             }
 
-            //переход на главную страницу
-            user = localUserRepository.getUserByEmail(email)?.toData()
-            user?.let {
-                if (password.equals(it.password)){
-                    mySharedPref.setCurrentUser(email)
-                    _message.postValue("Вход выполнен успешно")
-                    _action.postValue(Action.NavigateToHomePage)
-                }else{
-                    _message.postValue("Неверный ввод пароля")
-                }
-                return@launch
-            }
-
-            _message.postValue("Данной учетной записи не существует")
+            if (checkValidateUser(email, password) == false)
+                _message.postValue("Данной учетной записи не существует")
         }
     }
 
-    fun logInJob() {
-        val jobLogIn = viewModelScope.launch(Dispatchers.IO) {
-            login()
-        }.start()
+    private fun checkValidateUser(email: String, password: String): Boolean{
+        var result = false
+        user = localUserRepository.getUserByEmail(email)?.toData()
+        user?.let {
+            if (password.equals(it.password)){
+                mySharedPref.setCurrentUser(email)
+                _message.postValue("Вход выполнен успешно")
+                _action.postValue(Action.NavigateToHomePage)
+            }else{
+                _message.postValue("Неверный ввод пароля")
+            }
+            result = true
+        }
+        return result
     }
 
+    fun loginJob(email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            login(email, password)
+        }
+    }
 }

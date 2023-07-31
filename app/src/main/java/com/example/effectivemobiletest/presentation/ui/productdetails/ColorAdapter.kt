@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletest.R
 import java.lang.Exception
@@ -22,7 +21,6 @@ class ColorAdapter(
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.recview_color_item, parent, false)
-
         return ViewHolder(itemView)
     }
 
@@ -45,7 +43,7 @@ class ColorAdapter(
     }
 
     override fun getItemCount(): Int {
-        var count = items?.size ?: 0
+        val count = items?.size ?: 0
         return count
     }
 

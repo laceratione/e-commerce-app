@@ -4,27 +4,37 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ActivitySignInBinding
 import com.example.effectivemobiletest.presentation.ui.homepage.MainActivity
 import com.example.effectivemobiletest.presentation.ui.login.LoginActivity
 
 class SignInActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignInBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
         supportActionBar?.hide()
 
-        val binding: ActivitySignInBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
-        val signInViewModel: SignInViewModel = ViewModelProvider(this, SignInViewModelFactory(application)).get(SignInViewModel::class.java)
-        binding.signInViewModel = signInViewModel
-        binding.lifecycleOwner = this
+        binding = ActivitySignInBinding.inflate(layoutInflater)
+        val signInViewModel: SignInViewModel =
+            ViewModelProvider(this, SignInViewModelFactory(application))
+                .get(SignInViewModel::class.java)
+
+        binding.btnSignin.setOnClickListener {
+            signInViewModel.signinJob(
+                binding.etFirstName.text.toString(),
+                binding.etLastName.text.toString(),
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
+            )
+        }
+        binding.tvLogin.setOnClickListener {
+            signInViewModel.login()
+        }
 
         signInViewModel.action.observe(this, {
-            when(it){
+            when (it) {
                 Action.NavigateToLogin -> {
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
@@ -39,7 +49,7 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.message.observe(this, {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
+
+        setContentView(binding.root)
     }
-
-
 }

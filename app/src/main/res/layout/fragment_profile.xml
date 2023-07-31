@@ -1,117 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_shade1"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
-    <data>
-        <variable
-            type="com.example.effectivemobiletest.presentation.ui.profile.ProfileViewModel"
-            name="profileViewModel" />
-    </data>
-    
-    <LinearLayout
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/photoProfile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:srcCompat="@drawable/man" />
+
+    <TextView
+        android:id="@+id/tvChangePhoto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white_shade1"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" >
+        android:layout_height="wrap_content"
+        android:text="@string/tv_change_photo"
+        android:textAlignment="center"
+        android:textSize="12sp" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/photoProfile"
-            android:layout_marginTop="20dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/man"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+    <TextView
+        android:id="@+id/fullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_full_name"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/style_btn"
+        android:drawableStart="@drawable/ic_upload_item"
+        android:drawablePadding="50dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:text="@string/btn_upload_profile"
+        android:textAlignment="textStart"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_card"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/btn_trade_store" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_card"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/btn_payment_method" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBalance"
+            style="@style/style_btn_profile"
+            android:drawableStart="@drawable/ic_card"
+            android:text="@string/btn_balance" />
 
         <TextView
-            android:id="@+id/tvChangePhoto"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change photo"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Иван Иванов"
-            android:textAlignment="center"
-            android:textSize="22sp"
+            android:layout_alignBaseline="@id/btnBalance"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/summ_balance"
+            android:textColor="@color/myColor1"
             android:textStyle="bold" />
+    </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/style_btn"
-            android:drawableLeft="@drawable/ic_upload_item"
-            android:drawablePadding="50dp"
-            android:paddingStart="50dp"
-            android:text="@string/btn_upload_profile"
-            android:textAlignment="textStart"
-            android:textColor="@color/white" />
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_card"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/btn_trade_history" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_card"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:text="Trade store" />
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_restore"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/btn_restore_purchase" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_card"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:text="Payment method" />
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_help"
+        android:text="@string/btn_help" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_logout"
+        style="@style/style_btn_profile"
+        android:drawableStart="@drawable/ic_logout"
+        android:text="@string/btn_log_out" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBalance"
-                style="@style/style_btn_profile"
-                android:drawableLeft="@drawable/ic_card"
-                android:text="Balance" />
-
-            <TextView
-                android:textStyle="bold"
-                android:layout_marginRight="20dp"
-                android:layout_alignBaseline="@id/btnBalance"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/myColor1"
-                android:text="1600$"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_card"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:text="Trade history" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_restore"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:text="Restore purchase" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_help"
-            android:text="Help" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:onClick="@{() -> profileViewModel.logout()}"
-            style="@style/style_btn_profile"
-            android:drawableLeft="@drawable/ic_logout"
-            android:text="Log out" />
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

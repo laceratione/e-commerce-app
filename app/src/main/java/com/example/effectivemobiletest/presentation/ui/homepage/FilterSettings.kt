@@ -1,4 +1,5 @@
 package com.example.effectivemobiletest.presentation.ui.homepage
+
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,5 @@ class FilterSettings() {
             popupWindow.dismiss()
         }
     }
-
 
 }

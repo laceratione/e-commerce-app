@@ -28,16 +28,18 @@ class RecViewCartAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
             val bitmap: Bitmap? = myCart?.basket?.get(position)?.bitmap
-            holder.picture.setImageBitmap(bitmap)
-            holder.title.text = myCart?.basket?.get(position)?.title
-            holder.price.text = "$" + myCart?.basket?.get(position)?.price.toString()
+            with(holder){
+                picture.setImageBitmap(bitmap)
+                title.text = myCart?.basket?.get(position)?.title
+                price.text = "$" + myCart?.basket?.get(position)?.price.toString()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun getItemCount(): Int {
-        var count = myCart?.basket?.size ?: 0
+        val count = myCart?.basket?.size ?: 0
         return count
     }
 

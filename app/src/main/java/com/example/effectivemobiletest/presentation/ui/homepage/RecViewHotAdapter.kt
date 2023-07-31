@@ -29,13 +29,14 @@ class RecViewHotAdapter (
         try {
             val bitmap: Bitmap? = hotProducts[position].bitmap
 
-            holder.ivPicture.setImageBitmap(bitmap)
-            holder.tvTitle.text = hotProducts[position].title
-            holder.tvSubtitle.text = hotProducts[position].subtitle
+            with(holder){
+                ivPicture.setImageBitmap(bitmap)
+                tvTitle.text = hotProducts[position].title
+                tvSubtitle.text = hotProducts[position].subtitle
+            }
 
             if(hotProducts[position].isNew == true)
                 holder.llNew.visibility = View.VISIBLE
-
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -10,21 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.FragmentProfileBinding
 import com.example.effectivemobiletest.presentation.ui.signin.Action
 import com.example.effectivemobiletest.presentation.ui.signin.SignInActivity
 import java.io.FileNotFoundException
 
-
 class ProfileFragment : Fragment() {
+    private lateinit var binding: FragmentProfileBinding
+
     private val sharedViewModel: ProfileViewModel by activityViewModels() {
-        ProfileViewModelFactory(
-            requireActivity().application
-        )
+        ProfileViewModelFactory(requireActivity().application)
     }
 
     //проводник
@@ -38,10 +35,10 @@ class ProfileFragment : Fragment() {
                     Log.d("myLogs", "URI  set: ${uri.toString()}")
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
-                    Toast.makeText(requireContext(), "File not found", Toast.LENGTH_LONG).show()
+                    showMsg("File not found")
                 }
             } else {
-                Toast.makeText(requireContext(),"You haven't selected photo", Toast.LENGTH_LONG).show();
+                showMsg("You haven't selected photo")
             }
             sharedViewModel._action.value = Action.Default
         }
@@ -51,13 +48,17 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentProfileBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.apply {
-            profileViewModel = sharedViewModel
-        }
-        binding.setLifecycleOwner(this)
+        binding =
+            FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnLogout.setOnClickListener {
+            sharedViewModel.logout()
+        }
         binding.tvChangePhoto.setOnClickListener {
             loadImage()
         }
@@ -66,10 +67,9 @@ class ProfileFragment : Fragment() {
             when (it) {
                 Action.NavigateToSignIn -> {
                     val intent = Intent(requireContext(), SignInActivity::class.java)
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                     requireActivity().finish()
-                    Log.d("myLogs", "MainACtivity is FINISHED")
+                    Log.d("myLogs", "MainActivity is FINISHED")
                 }
                 Action.Default -> {}
             }
@@ -78,9 +78,6 @@ class ProfileFragment : Fragment() {
         sharedViewModel.uriPhoto.observe(requireActivity(), {
             binding.photoProfile.setImageURI(Uri.parse(it))
         })
-
-
-        return binding.root
     }
 
     private fun loadImage(){
@@ -90,7 +87,8 @@ class ProfileFragment : Fragment() {
         launcher.launch(intent)
     }
 
-    companion object {
-        fun newInstance() = ProfileFragment()
+    private fun showMsg(text: String){
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
+
 }

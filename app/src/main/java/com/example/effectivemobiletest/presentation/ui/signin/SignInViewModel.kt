@@ -15,11 +15,11 @@ import com.example.effectivemobiletest.App
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class SignInViewModel(val application: Application): ViewModel() {
-    var firstName: String = ""
-    var lastName: String = ""
-    var email: String = ""
-    var password: String = ""
+class SignInViewModel(val application: Application) : ViewModel() {
+//    var firstName: String = ""
+//    var lastName: String = ""
+//    var email: String = ""
+//    var password: String = ""
 
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
@@ -27,6 +27,7 @@ class SignInViewModel(val application: Application): ViewModel() {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    //обернуть в use case
     @Inject
     lateinit var localUserRepository: LocalUserRepository
 
@@ -38,12 +39,13 @@ class SignInViewModel(val application: Application): ViewModel() {
     }
 
     //перейти на экран Login
-    fun login(){
+    fun login() {
         _action.value = Action.NavigateToLogin
     }
 
+    //декомпозировать метод
     //регистрауия пользователя
-    suspend fun signin() = coroutineScope {
+    suspend fun signin(firstName: String, lastName: String, email: String, password: String) = coroutineScope {
         launch {
             //проверка корректности полей
             val emailIsValid: Boolean =
@@ -52,7 +54,7 @@ class SignInViewModel(val application: Application): ViewModel() {
             val formIsValid: Boolean = !firstName.isEmpty() && !lastName.isEmpty()
                     && emailIsValid && passwordIsValid
 
-            if (formIsValid == false){
+            if (formIsValid == false) {
                 _message.postValue("Данные некорректны")
                 //тут можно уточнить, что конкретно некорректно
                 return@launch
@@ -75,14 +77,14 @@ class SignInViewModel(val application: Application): ViewModel() {
 
     }
 
-    fun signInJob(){
-        val jobSignIn = viewModelScope.launch(Dispatchers.IO){
-            signin()
-        }.start()
+    fun signinJob(firstName: String, lastName: String, email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            signin(firstName, lastName, email, password)
+        }
     }
 }
 
-enum class Action{
+enum class Action {
     NavigateToLogin, NavigateToHomePage, NavigateToSignIn,
-    ChangePhoto,Default,
+    ChangePhoto, Default,
 }

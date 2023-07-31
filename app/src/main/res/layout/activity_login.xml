@@ -1,63 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_shade1"
+    android:orientation="vertical"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    tools:context=".presentation.ui.login.LoginActivity">
 
-    <data>
-        <variable
-            name="loginViewModel"
-            type="com.example.effectivemobiletest.presentation.ui.login.LoginViewModel" />
-    </data>
+    <TextView
+        style="@style/style_title"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"
+        android:text="@string/login_title" />
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etEmailLayout"
+        style="@style/style_layout_edit_text_login">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            style="@style/style_edit_text_login"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
+        style="@style/style_layout_edit_text_login"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            style="@style/style_edit_text_login"
+            android:drawablePadding="-35dp"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white_shade1"
-        android:orientation="vertical"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        tools:context=".presentation.ui.login.LoginActivity">
-
-        <TextView
-            style="@style/style_title"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="80dp"
-            android:text="@string/login_title" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etFirstNameLayout"
-            style="@style/style_layout_edit_text_login">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:text="@={loginViewModel.email}"
-                android:id="@+id/etFirstName"
-                style="@style/style_edit_text_login"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPasswordLayout"
-            style="@style/style_layout_edit_text_login"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:text="@={loginViewModel.password}"
-                android:id="@+id/etPassword"
-                style="@style/style_edit_text_login"
-                android:drawablePadding="-35dp"
-                android:hint="@string/hint_password"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:onClick="@{() -> loginViewModel.logInJob()}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/style_btn"
-            android:text="@string/btn_login"
-            android:textColor="@color/white" />
-    </LinearLayout>
-</layout>
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/style_btn"
+        android:text="@string/btn_login"
+        android:textColor="@color/white" />
+</LinearLayout>

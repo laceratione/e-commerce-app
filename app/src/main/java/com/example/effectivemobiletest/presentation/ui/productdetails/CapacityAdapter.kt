@@ -48,7 +48,7 @@ class CapacityAdapter(
     }
 
     override fun getItemCount(): Int {
-        var count = items?.size ?: 0
+        val count = items?.size ?: 0
         return count
     }
 

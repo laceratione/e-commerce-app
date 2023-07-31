@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.effectivemobiletest.R
 import com.example.effectivemobiletest.databinding.ShopFragmentBinding
 
 //вкладка Shop экрана ProductDetails
 class ShopFragment : Fragment() {
-    lateinit var vm: ProductDetailsViewModel
+    private lateinit var binding: ShopFragmentBinding
+    private val sharedViewModel: ProductDetailsViewModel by activityViewModels()
     var pageNumber: Int = 0
 
     companion object {
@@ -33,8 +33,6 @@ class ShopFragment : Fragment() {
         arguments?.let {
             pageNumber = it.getInt(ARG_PAGE)
         }
-        vm =
-            ViewModelProvider(requireActivity()).get(ProductDetailsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -42,12 +40,33 @@ class ShopFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ShopFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.shop_fragment, container, false
-        )
-        binding.prodDetViewModel = vm
-        binding.setLifecycleOwner (this)
-
+        binding = ShopFragmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val colorAdapter = ColorAdapter()
+        val capacityAdapter = CapacityAdapter()
+        binding.rvColor.adapter = colorAdapter
+        binding.rvCapacity.adapter = capacityAdapter
+
+        sharedViewModel.dataProductDetails.observe(viewLifecycleOwner, { productDetails ->
+            with(binding) {
+                titleCpu.text = productDetails.cpu
+                titleCamera.text = productDetails.camera
+                titleSsd.text = productDetails.ssd
+                titleSd.text = productDetails.sd
+
+                btnAddToCart.text = getString(
+                    R.string.btn_add_to_cart,
+                    productDetails.price.toString()
+                )
+
+                colorAdapter.updateItems(productDetails.color)
+                capacityAdapter.updateItems(productDetails.capacity)
+            }
+        })
     }
 }

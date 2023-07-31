@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_shade1"
+    android:orientation="vertical">
 
-    <data>
-        <variable
-            name="homeViewModel"
-            type="com.example.effectivemobiletest.presentation.ui.homepage.HomeViewModel" />
-    </data>
-
-    <RelativeLayout
-        android:background="@color/white_shade1"
-        android:orientation="vertical"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation" />
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            app:onNavigationItemSelected="@{(menuItem)->homeViewModel.bottomNavItemSelected(menuItem)}"
-            app:elevation="0dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/style_my_cart"
-            style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:menu="@menu/bottom_navigation_menu"
-            android:layout_margin="20dp"/>
-    </RelativeLayout>
-
-</layout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/style_my_cart"
+        app:elevation="0dp"
+        app:menu="@menu/bottom_navigation_menu" />
+</RelativeLayout>

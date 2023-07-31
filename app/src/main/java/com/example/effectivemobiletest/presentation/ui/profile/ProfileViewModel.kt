@@ -23,6 +23,7 @@ class ProfileViewModel(val application: Application) : ViewModel() {
     private val _uriPhoto = MutableLiveData<String>()
     val uriPhoto: LiveData<String> = _uriPhoto
 
+    //обернуть в use case
     @Inject
     lateinit var localUserRepository: LocalUserRepository
 
@@ -31,9 +32,9 @@ class ProfileViewModel(val application: Application) : ViewModel() {
 
     init {
         (application as App).appComponent.inject(this)
-        val loadData = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getUserPhoto()
-        }.start()
+        }
     }
 
     //выход из учетной записи
@@ -43,13 +44,10 @@ class ProfileViewModel(val application: Application) : ViewModel() {
     }
 
     fun setUserPhotoJob(uri: String) {
-        viewModelScope.launch(Dispatchers.IO) { setUserPhoto(uri) }.start()
+        viewModelScope.launch(Dispatchers.IO) {
+            setUserPhoto(uri)
+        }
     }
-
-    //изменить фото профиля
-//    fun changePhoto() {
-//        _action.value = Action.ChangePhoto
-//    }
 
     fun loadImageFromGallery(uri: String) {
         _uriPhoto.value = uri

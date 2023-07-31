@@ -4,7 +4,6 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,21 +23,27 @@ import javax.inject.Inject
 
 class HomeViewModel(application: Application) : ViewModel() {
     //товары категории Hot Sale
-    val dataHotProducts: MutableLiveData<List<HotProduct>> = MutableLiveData()
+    private val _dataHotProducts: MutableLiveData<List<HotProduct>> = MutableLiveData()
+    val dataHotProducts: LiveData<List<HotProduct>> = _dataHotProducts
 
     //товары категории Best Seller
-    val dataBestProducts: MutableLiveData<List<BestProduct>> = MutableLiveData()
+    private val _dataBestProducts: MutableLiveData<List<BestProduct>> = MutableLiveData()
+    val dataBestProducts: LiveData<List<BestProduct>> = _dataBestProducts
 
     //товары корзины
-    val dataMyCart: MutableLiveData<MyCart> = MutableLiveData()
+    private val _dataMyCart: MutableLiveData<MyCart> = MutableLiveData()
+    val dataMyCart: LiveData<MyCart> = _dataMyCart
 
     //проверка процесса загрузки товаров
-    val isHotSalesLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val isBestSellerLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isHotSalesLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isHotSalesLoading: LiveData<Boolean> = _isHotSalesLoading
 
-    //выбранная страница навигации
-    private val botNavPage: MutableLiveData<Int> = MutableLiveData()
-    val botNavPageLive: LiveData<Int> = botNavPage
+    private val _isBestSellerLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isBestSellerLoading: LiveData<Boolean> = _isBestSellerLoading
+
+//    //выбранная страница навигации
+//    private val _botNavPage: MutableLiveData<Int> = MutableLiveData()
+//    val botNavPage: LiveData<Int> = _botNavPage
 
     @Inject
     lateinit var popUpWindow: FilterSettings
@@ -53,20 +58,20 @@ class HomeViewModel(application: Application) : ViewModel() {
     init {
         (application as App).appComponent.inject(this)
 
-        val jobHotSales = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getDataHotSales()
-        }.start()
+        }
 
-        val jobMyCart = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getDataMyCart()
-        }.start()
+        }
     }
 
     //загрузка товаров категорий Hot Sales, Best Seller
     suspend fun getDataHotSales() = coroutineScope {
         launch {
-            isHotSalesLoading.postValue(true)
-            isBestSellerLoading.postValue(true)
+            _isHotSalesLoading.postValue(true)
+            _isBestSellerLoading.postValue(true)
 
             dataHomeActUseCase().enqueue(object : Callback<Product> {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
@@ -74,12 +79,12 @@ class HomeViewModel(application: Application) : ViewModel() {
                     val bestProducts = response.body()?.bestProducts
                     viewModelScope.launch(Dispatchers.IO) {
                         getBitmaps(hotProducts!!)
-                        dataHotProducts.postValue(hotProducts)
-                        isHotSalesLoading.postValue(false)
+                        _dataHotProducts.postValue(hotProducts)
+                        _isHotSalesLoading.postValue(false)
 
                         getBitmaps(bestProducts!!)
-                        dataBestProducts.postValue(bestProducts)
-                        isBestSellerLoading.postValue(false)
+                        _dataBestProducts.postValue(bestProducts)
+                        _isBestSellerLoading.postValue(false)
                     }
                 }
 
@@ -100,7 +105,7 @@ class HomeViewModel(application: Application) : ViewModel() {
                     viewModelScope.launch(Dispatchers.IO) {
                         if (myCart != null) {
                             getBitmaps(myCart.basket)
-                            dataMyCart.postValue(myCart)
+                            _dataMyCart.postValue(myCart)
                             Cart.updateCart(myCart)
                         }
                     }
@@ -134,16 +139,16 @@ class HomeViewModel(application: Application) : ViewModel() {
         popUpWindow.showPopUpWindow(view)
     }
 
-    //возвращает индекс выбранной страницы
-    fun bottomNavItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.page_1 -> botNavPage.value = 1
-            R.id.page_2 -> botNavPage.value = 2
-            R.id.page_3 -> botNavPage.value = 3
-            R.id.page_4 -> botNavPage.value = 4
-        }
-
-        return true
-    }
+//    //возвращает индекс выбранной страницы
+//    fun bottomNavItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.page_1 -> botNavPage.value = 1
+//            R.id.page_2 -> botNavPage.value = 2
+//            R.id.page_3 -> botNavPage.value = 3
+//            R.id.page_4 -> botNavPage.value = 4
+//        }
+//
+//        return true
+//    }
     
 }

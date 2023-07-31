@@ -36,6 +36,22 @@
     <string name="btn_login">Login</string>
 
     <string name="btn_upload_profile">Upload item</string>
+    <string name="tv_sign_in">Log in</string>
+    <string name="tv_change_photo">Change photo</string>
+    <string name="tv_full_name">Иван Иванов</string>
+    <string name="btn_trade_store">Trade store</string>
+    <string name="btn_payment_method">Payment method</string>
+    <string name="btn_balance">Balance</string>
+    <string name="summ_balance">1600$</string>
+    <string name="btn_trade_history">Trade history</string>
+    <string name="btn_restore_purchase">Restore purchase</string>
+    <string name="btn_help">Help</string>
+    <string name="btn_log_out">Log out</string>
+    <string name="tv_total_cart">Total</string>
+    <string name="tv_delivery">Delivery</string>
+    <string name="btn_checkout">Checkout</string>
+    <string name="tv_details_title">Title</string>
+    <string name="btn_add_to_cart">Add to Cart $ %1$s</string>
 
     <string-array name="models">
         <item>Samsung</item>

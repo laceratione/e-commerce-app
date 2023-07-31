@@ -49,12 +49,14 @@ class RecViewCategoriesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder.icon.setImageResource(icons[position])
-            holder.title.setText(getTitle(position))
+            with(holder){
+                icon.setImageResource(icons[position])
+                title.setText(getTitle(position))
 
-            holder.linearLayout.setOnClickListener {
-                index = position
-                notifyDataSetChanged()
+                linearLayout.setOnClickListener {
+                    index = position
+                    notifyDataSetChanged()
+                }
             }
 
             if (index == position) {
@@ -81,18 +83,19 @@ class RecViewCategoriesAdapter(
 
     //задает цвет фона, иконки и названия категории
     private fun setColor(holder: ViewHolder, backColor: Int, iconColor: Int, textColor: Int) {
-        holder.icon.background = getShape(backColor)
-        holder.icon.setColorFilter(
-            ContextCompat.getColor(context, iconColor),
-            android.graphics.PorterDuff.Mode.SRC_IN
-        )
-        holder.title.setTextColor(
-            ContextCompat.getColor(context, textColor)
-        )
+        with(holder){
+            icon.background = getShape(backColor)
+            icon.setColorFilter(
+                ContextCompat.getColor(context, iconColor),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+            title.setTextColor(
+                ContextCompat.getColor(context, textColor)
+            )
+        }
     }
 
-    class ViewHolder(val view: View) :
-        RecyclerView.ViewHolder(view) {
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.tvCategoriesItem)
         val icon: ImageView = view.findViewById(R.id.ivCategoriesItem)
         val linearLayout: LinearLayout = view.findViewById(R.id.llItemCateg)

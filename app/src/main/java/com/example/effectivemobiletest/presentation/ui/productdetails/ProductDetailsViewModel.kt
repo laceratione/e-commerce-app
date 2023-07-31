@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,10 +21,12 @@ import javax.inject.Inject
 
 class ProductDetailsViewModel(application: Application) : ViewModel() {
     //подробная информация товара
-    val dataProductDetails: MutableLiveData<ProductDetails> = MutableLiveData()
+    private val _dataProductDetails: MutableLiveData<ProductDetails> = MutableLiveData()
+    val dataProductDetails: LiveData<ProductDetails> = _dataProductDetails
 
     //проверка загрузки данных
-    val isProdDetLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isProdDetLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isProdDetLoading: LiveData<Boolean> = _isProdDetLoading
 
     @Inject
     lateinit var dataDetailsUseCase: GetDataDetails
@@ -32,16 +35,14 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
     init {
         (application as App).appComponent.inject(this)
 
-        val jobGetDetails: Job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getDataDetails()
         }
-        jobGetDetails.start()
     }
 
     suspend fun getDataDetails() = coroutineScope {
         launch {
-            isProdDetLoading.postValue(true)
-
+            _isProdDetLoading.postValue(true)
             dataDetailsUseCase().enqueue(object : Callback<ProductDetails> {
                 override fun onResponse(call: Call<ProductDetails>, response: Response<ProductDetails>) {
                     val productDetails = response.body()
@@ -58,8 +59,8 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
                                 }
                             }
                             productDetails.bitmaps = bitmaps
-                            dataProductDetails.postValue(productDetails)
-                            isProdDetLoading.postValue(false)
+                            _dataProductDetails.postValue(productDetails)
+                            _isProdDetLoading.postValue(false)
                         }
                     }
                 }
@@ -71,8 +72,4 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
 
         }
     }
-
-    //добавить в корзину
-    fun addToCart() {}
-
 }

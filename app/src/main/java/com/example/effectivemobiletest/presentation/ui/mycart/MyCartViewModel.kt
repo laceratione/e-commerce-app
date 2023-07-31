@@ -8,12 +8,12 @@ import com.example.domain.model.MyCart
 
 class MyCartViewModel : ViewModel() {
     //данные корзины
-    private val dataMyCart: MutableLiveData<MyCart> = MutableLiveData()
-    val dataCartLive: LiveData<MyCart> = dataMyCart
+    private val _dataMyCart: MutableLiveData<MyCart> = MutableLiveData()
+    val dataMyCart: LiveData<MyCart> = _dataMyCart
 
     //обновление данных корзины
     init {
-        dataMyCart.value = Cart.getCart().value
+        _dataMyCart.value = Cart.getCart().value
     }
 
 }
