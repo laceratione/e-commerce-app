@@ -29,6 +29,7 @@ class SignInActivity : AppCompatActivity() {
                 binding.etPassword.text.toString()
             )
         }
+
         binding.tvLogin.setOnClickListener {
             signInViewModel.login()
         }

@@ -62,6 +62,7 @@ class GridViewBestAdapter (private val context: Context): BaseAdapter() {
         }
 
         //добавить товар в избранное
+        //реализовать "убрать из списка"
         favorites?.setOnClickListener{
             (it as ImageView).setImageResource(R.drawable.ic_favotite_fill)
             Toast.makeText(it.context, "Added to favorites", Toast.LENGTH_LONG).show()

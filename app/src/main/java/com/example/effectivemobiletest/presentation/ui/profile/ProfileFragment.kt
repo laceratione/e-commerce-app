@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.effectivemobiletest.databinding.FragmentProfileBinding
-import com.example.effectivemobiletest.presentation.ui.signin.Action
 import com.example.effectivemobiletest.presentation.ui.signin.SignInActivity
 import java.io.FileNotFoundException
 
@@ -35,12 +34,12 @@ class ProfileFragment : Fragment() {
                     Log.d("myLogs", "URI  set: ${uri.toString()}")
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
-                    showMsg("File not found")
+                    showMsg("Файл не найден")
                 }
             } else {
-                showMsg("You haven't selected photo")
+                showMsg("Фото не выбрано")
             }
-            sharedViewModel._action.value = Action.Default
+//            sharedViewModel._action.value = Action.Default
         }
 
     override fun onCreateView(
@@ -58,30 +57,26 @@ class ProfileFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
             sharedViewModel.logout()
+            navigateToSignIn()
         }
         binding.tvChangePhoto.setOnClickListener {
             loadImage()
         }
-
-        sharedViewModel._action.observe(requireActivity(), {
-            when (it) {
-                Action.NavigateToSignIn -> {
-                    val intent = Intent(requireContext(), SignInActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
-                    Log.d("myLogs", "MainActivity is FINISHED")
-                }
-                Action.Default -> {}
-            }
-        })
 
         sharedViewModel.uriPhoto.observe(requireActivity(), {
             binding.photoProfile.setImageURI(Uri.parse(it))
         })
     }
 
+    private fun navigateToSignIn(){
+        val intent = Intent(requireContext(), SignInActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+        Log.d("myLogs", "MainActivity is FINISHED")
+    }
+
     private fun loadImage(){
-        Log.d("myLogs", "ACTION CHANGEPHOTO")
+        Log.d("myLogs", "ACTION CHANGE_PHOTO")
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.setType("image/*")
         launcher.launch(intent)

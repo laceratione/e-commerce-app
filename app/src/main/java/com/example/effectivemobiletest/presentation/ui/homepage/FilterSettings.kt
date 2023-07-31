@@ -18,11 +18,10 @@ class FilterSettings() {
 
         val width: Int = LinearLayout.LayoutParams.MATCH_PARENT
         val height: Int = LinearLayout.LayoutParams.WRAP_CONTENT
-        val focusable: Boolean = true
+        val focusable = true
 
-        val popupWindow: PopupWindow = PopupWindow(myView, width, height, focusable)
+        val popupWindow = PopupWindow(myView, width, height, focusable)
         popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0)
-        val llParent: LinearLayout = myView.findViewById(R.id.llFilter)
 
         //закрыть окно
         val btnClose: AppCompatImageButton = myView.findViewById(R.id.btnFilterClose)

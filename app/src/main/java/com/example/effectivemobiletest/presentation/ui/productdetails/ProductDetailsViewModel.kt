@@ -48,8 +48,8 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
                     val productDetails = response.body()
                     val bitmaps: MutableList<Bitmap> = mutableListOf()
                     viewModelScope.launch(Dispatchers.IO) {
-                        if (productDetails != null) {
-                            for (item in productDetails.images) {
+                        productDetails?.let {
+                            for (item in it.images) {
                                 try {
                                     val picture = URL(item).openStream()
                                     val bitmap: Bitmap = BitmapFactory.decodeStream(picture)
@@ -58,8 +58,8 @@ class ProductDetailsViewModel(application: Application) : ViewModel() {
                                     e.printStackTrace()
                                 }
                             }
-                            productDetails.bitmaps = bitmaps
-                            _dataProductDetails.postValue(productDetails)
+                            it.bitmaps = bitmaps
+                            _dataProductDetails.postValue(it)
                             _isProdDetLoading.postValue(false)
                         }
                     }

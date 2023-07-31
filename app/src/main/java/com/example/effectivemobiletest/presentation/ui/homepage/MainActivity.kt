@@ -9,7 +9,6 @@ import com.example.effectivemobiletest.databinding.ActivityMainBinding
 import com.example.domain.model.Cart
 import com.example.effectivemobiletest.presentation.ui.mycart.MyCartFragment
 import com.example.effectivemobiletest.presentation.ui.profile.ProfileFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -47,8 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         //отображение количества товаров в корзине на панели навигации
         Cart.dataLive.observe(this, {
-            val botNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-            val badge = botNav.getOrCreateBadge(R.id.page_2)
+            val badge = binding.bottomNavigation.getOrCreateBadge(R.id.page_2)
             badge.isVisible = true
             badge.number = it.basket.size
         })

@@ -11,15 +11,12 @@ import com.example.data.user.UserEntity
 import com.example.data.user.toData
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
-import com.example.effectivemobiletest.presentation.ui.signin.Action
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel(val application: Application) : ViewModel() {
-    val _action = MutableLiveData<Action>()
-
     private val _uriPhoto = MutableLiveData<String>()
     val uriPhoto: LiveData<String> = _uriPhoto
 
@@ -32,6 +29,7 @@ class ProfileViewModel(val application: Application) : ViewModel() {
 
     init {
         (application as App).appComponent.inject(this)
+
         viewModelScope.launch(Dispatchers.IO) {
             getUserPhoto()
         }
@@ -40,7 +38,6 @@ class ProfileViewModel(val application: Application) : ViewModel() {
     //выход из учетной записи
     fun logout() {
         mySharedPref.clear()
-        _action.postValue(Action.NavigateToSignIn)
     }
 
     fun setUserPhotoJob(uri: String) {
@@ -69,11 +66,11 @@ class ProfileViewModel(val application: Application) : ViewModel() {
     suspend fun getUserPhoto() = coroutineScope {
         launch {
             val email: String? = mySharedPref.getCurrentUser()
-            val user: UserEntity? = localUserRepository.getUserByEmail(email!!)?.toData()
-            Log.d("myLogs", "URI get: ${user?.imagePath}")
-            localUserRepository.getUserImage(email!!)?.let { _uriPhoto.postValue(it) }
+            email?.let {
+                val user: UserEntity? = localUserRepository.getUserByEmail(it)?.toData()
+                Log.d("myLogs", "URI get: ${user?.imagePath}")
+                localUserRepository.getUserImage(it)?.let { _uriPhoto.postValue(it) }
+            }
         }
     }
-
-
 }

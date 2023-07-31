@@ -41,10 +41,6 @@ class HomeViewModel(application: Application) : ViewModel() {
     private val _isBestSellerLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isBestSellerLoading: LiveData<Boolean> = _isBestSellerLoading
 
-//    //выбранная страница навигации
-//    private val _botNavPage: MutableLiveData<Int> = MutableLiveData()
-//    val botNavPage: LiveData<Int> = _botNavPage
-
     @Inject
     lateinit var popUpWindow: FilterSettings
 
@@ -77,22 +73,29 @@ class HomeViewModel(application: Application) : ViewModel() {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
                     val hotProducts = response.body()?.hotProducts
                     val bestProducts = response.body()?.bestProducts
-                    viewModelScope.launch(Dispatchers.IO) {
-                        getBitmaps(hotProducts!!)
-                        _dataHotProducts.postValue(hotProducts)
-                        _isHotSalesLoading.postValue(false)
-
-                        getBitmaps(bestProducts!!)
-                        _dataBestProducts.postValue(bestProducts)
-                        _isBestSellerLoading.postValue(false)
-                    }
+                    updateData(hotProducts, bestProducts)
                 }
 
                 override fun onFailure(call: Call<Product>, t: Throwable) {
                     Log.d("myLogs", t.message.toString())
                 }
             })
+        }
+    }
 
+    private fun updateData(hotProducts: List<HotProduct>?, bestProducts: List<BestProduct>?){
+        viewModelScope.launch(Dispatchers.IO) {
+            hotProducts?.let {
+                getBitmaps(it)
+                _dataHotProducts.postValue(it)
+            }
+            _isHotSalesLoading.postValue(false)
+
+            bestProducts?.let{
+                getBitmaps(it)
+                _dataBestProducts.postValue(it)
+            }
+            _isBestSellerLoading.postValue(false)
         }
     }
 
@@ -103,10 +106,10 @@ class HomeViewModel(application: Application) : ViewModel() {
                 override fun onResponse(call: Call<MyCart>, response: Response<MyCart>) {
                     val myCart = response.body()
                     viewModelScope.launch(Dispatchers.IO) {
-                        if (myCart != null) {
-                            getBitmaps(myCart.basket)
-                            _dataMyCart.postValue(myCart)
-                            Cart.updateCart(myCart)
+                        myCart?.let {
+                            getBitmaps(it.basket)
+                            _dataMyCart.postValue(it)
+                            Cart.updateCart(it)
                         }
                     }
                 }
@@ -115,13 +118,12 @@ class HomeViewModel(application: Application) : ViewModel() {
                     Log.d("myLogs", t.message.toString())
                 }
             })
-
         }
     }
 
     //ссылки URL преобразуем в Bitmap
     suspend fun getBitmaps(items: List<BaseProduct>) = coroutineScope {
-        launch {
+        launch(Dispatchers.IO) {
             for (item in items) {
                 try {
                     val picture = URL(item.picture).openStream()
@@ -138,17 +140,4 @@ class HomeViewModel(application: Application) : ViewModel() {
     fun showFilterSettings(view: View) {
         popUpWindow.showPopUpWindow(view)
     }
-
-//    //возвращает индекс выбранной страницы
-//    fun bottomNavItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.page_1 -> botNavPage.value = 1
-//            R.id.page_2 -> botNavPage.value = 2
-//            R.id.page_3 -> botNavPage.value = 3
-//            R.id.page_4 -> botNavPage.value = 4
-//        }
-//
-//        return true
-//    }
-    
 }

@@ -11,7 +11,6 @@ import com.example.data.user.UserEntity
 import com.example.data.user.toData
 import com.example.domain.repository.LocalUserRepository
 import com.example.effectivemobiletest.App
-import com.example.effectivemobiletest.presentation.ui.signin.Action
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -20,8 +19,8 @@ import javax.inject.Inject
 class LoginViewModel(val application: Application) : ViewModel() {
     private var user: UserEntity? = null
 
-    private val _action = MutableLiveData<Action>()
-    val action: LiveData<Action> = _action
+    private val _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess: LiveData<Boolean> = _isSuccess
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -61,7 +60,7 @@ class LoginViewModel(val application: Application) : ViewModel() {
             if (password.equals(it.password)){
                 mySharedPref.setCurrentUser(email)
                 _message.postValue("Вход выполнен успешно")
-                _action.postValue(Action.NavigateToHomePage)
+                _isSuccess.postValue(true)
             }else{
                 _message.postValue("Неверный ввод пароля")
             }

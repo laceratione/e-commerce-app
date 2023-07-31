@@ -16,11 +16,6 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class SignInViewModel(val application: Application) : ViewModel() {
-//    var firstName: String = ""
-//    var lastName: String = ""
-//    var email: String = ""
-//    var password: String = ""
-
     private val _action = MutableLiveData<Action>()
     val action: LiveData<Action> = _action
 
@@ -43,38 +38,46 @@ class SignInViewModel(val application: Application) : ViewModel() {
         _action.value = Action.NavigateToLogin
     }
 
-    //декомпозировать метод
     //регистрауия пользователя
-    suspend fun signin(firstName: String, lastName: String, email: String, password: String) = coroutineScope {
+    suspend fun signin(
+        firstName: String, lastName: String, email: String, password: String
+    ) = coroutineScope {
         launch {
-            //проверка корректности полей
-            val emailIsValid: Boolean =
-                !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            val passwordIsValid: Boolean = !password.isEmpty() && password.length >= 6
-            val formIsValid: Boolean = !firstName.isEmpty() && !lastName.isEmpty()
-                    && emailIsValid && passwordIsValid
-
-            if (formIsValid == false) {
+            if (checkValidateForm(firstName, lastName, email, password) == false) {
                 _message.postValue("Данные некорректны")
-                //тут можно уточнить, что конкретно некорректно
+                //тут можно конкретизировать ошибку
                 return@launch
             }
+
             //проверка на уже существующего пользователя
             val alreadyUserHave: UserEntity? = localUserRepository.getUserByEmail(email)?.toData()
             alreadyUserHave?.let {
                 _message.postValue("Такой пользователь уже существует")
                 return@launch
             }
-            //запись данных пользователя в БД
+
             val user = UserEntity(0, firstName, lastName, email, password, null)
-            localUserRepository.addUser(user.toDomain())
-            mySharedPref.setCurrentUser(email)
-            _message.postValue("Регистрация прошла успешно")
-            _action.postValue(Action.NavigateToHomePage)
-
-            Log.d("myLogs", "User: ${user.email}, ID: ${user.id}")
+            addUserDB(user)
         }
+    }
 
+    //проверка корректности полей
+    private fun checkValidateForm
+                (firstName: String, lastName: String, email: String, password: String): Boolean{
+        val emailIsValid: Boolean =
+            !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val passwordIsValid: Boolean = !password.isEmpty() && password.length >= 6
+        val formIsValid: Boolean = !firstName.isEmpty() && !lastName.isEmpty()
+                && emailIsValid && passwordIsValid
+        return formIsValid
+    }
+
+    //запись данных пользователя в БД
+    private fun addUserDB(user: UserEntity){
+        localUserRepository.addUser(user.toDomain())
+        mySharedPref.setCurrentUser(user.email)
+        _message.postValue("Регистрация прошла успешно")
+        _action.postValue(Action.NavigateToHomePage)
     }
 
     fun signinJob(firstName: String, lastName: String, email: String, password: String) {
@@ -85,6 +88,5 @@ class SignInViewModel(val application: Application) : ViewModel() {
 }
 
 enum class Action {
-    NavigateToLogin, NavigateToHomePage, NavigateToSignIn,
-    ChangePhoto, Default,
+    NavigateToLogin, NavigateToHomePage, NavigateToSignIn, Default,
 }
